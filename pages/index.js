@@ -32,14 +32,7 @@ export default function Home({ pageContent, listings, faqs }) {
       />
 
       {/* Load Lucide */}
-      <Script
-        src="https://unpkg.com/lucide@latest"
-        strategy="afterInteractive"
-      />
-      {/* Initialize Lucide after it loads */}
-      <Script id="lucide-init" strategy="afterInteractive">
-        {`lucide.createIcons();`}
-      </Script>
+      <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
 
 
       {/* SEO + JSON-LD */}
