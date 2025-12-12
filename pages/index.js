@@ -2,6 +2,7 @@
 import Head from "next/head";
 import Script from "next/script";
 import { getPageContent, getListings, getFaqs } from "../lib/airtable";
+import { Calendar } from "lucide-react";
 
 export async function getStaticProps() {
   const [pageContent, listings, faqs] = await Promise.all([
@@ -74,17 +75,36 @@ export default function Home({ pageContent, listings, faqs }) {
         {/* HERO */}
         <section className="bg-gradient-to-br from-gray-50 to-gray-100 py-12 sm:py-16 lg:py-20 px-4 sm:px-6">
           <div className="max-w-4xl mx-auto text-center">
-            {/*{pageContent.heroPreHeadline && (*/}
+            {pageContent.heroPreHeadline && (
               <div className="inline-flex items-center gap-2 bg-white px-3 sm:px-4 py-2 rounded-2xl border border-gray-200 shadow-sm mb-6 sm:mb-8">
                 <span className="text-xs sm:text-sm font-medium text-gray-600">
                   {pageContent.heroPreHeadline}
                 </span>
               </div>
-            {/*)}*/} 
+            )}
 
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-4 sm:mb-6 leading-tight">
               <span className="block">{pageContent.heroHeadline}</span>
             </h1>
+
+            {/*<!-- Meta Info -->*/}
+            <div
+              className="flex flex-wrap justify-center items-center gap-2 sm:gap-4 text-xs sm:text-sm text-gray-500 mb-6 sm:mb-8">
+              <div className="flex items-center gap-1 sm:gap-2">
+                < Calendar className="w-3 h-3 sm:w-4 sm:h-4"/>
+                <span>Updated July 2025</span>
+              </div>
+              <div className="w-1 h-1 bg-gray-400 rounded-full"></div>
+              <div className="flex items-center gap-1 sm:gap-2">
+                <i data-lucide="clock" className="w-3 h-3 sm:w-4 sm:h-4"></i>
+                <span>5 min read</span>
+              </div>
+              <div className="w-1 h-1 bg-gray-400 rounded-full"></div>
+              <div className="flex items-center gap-1 sm:gap-2">
+                <i data-lucide="users" className="w-3 h-3 sm:w-4 sm:h-4"></i>
+                <span>Expert Reviewed</span>
+              </div>
+            </div>
 
             {pageContent.heroDescription && (
               <p className="text-base sm:text-lg lg:text-xl text-gray-600 max-w-xl mx-auto mb-8 sm:mb-10 leading-relaxed px-2">
