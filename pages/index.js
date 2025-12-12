@@ -1,5 +1,6 @@
 // pages/index.js
 import Head from "next/head";
+import Script from "next/script";
 import { getPageContent, getListings, getFaqs } from "../lib/airtable";
 
 export async function getStaticProps() {
@@ -23,6 +24,11 @@ export async function getStaticProps() {
 export default function Home({ pageContent, listings, faqs }) {
   return (
     <>
+        {/* Tailwind via CDN */}
+      <Script
+        src="https://cdn.tailwindcss.com"
+        strategy="beforeInteractive"
+      />
       {/* SEO + JSON-LD */}
       <Head>
         <title>{pageContent.seoTitle}</title>
@@ -68,13 +74,13 @@ export default function Home({ pageContent, listings, faqs }) {
         {/* HERO */}
         <section className="bg-gradient-to-br from-gray-50 to-gray-100 py-12 sm:py-16 lg:py-20 px-4 sm:px-6">
           <div className="max-w-4xl mx-auto text-center">
-            {pageContent.heroPreHeadline && (
+            {/*{pageContent.heroPreHeadline && (*/}
               <div className="inline-flex items-center gap-2 bg-white px-3 sm:px-4 py-2 rounded-2xl border border-gray-200 shadow-sm mb-6 sm:mb-8">
                 <span className="text-xs sm:text-sm font-medium text-gray-600">
                   {pageContent.heroPreHeadline}
                 </span>
               </div>
-            )}
+            {/*)}*/} 
 
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-4 sm:mb-6 leading-tight">
               <span className="block">{pageContent.heroHeadline}</span>
