@@ -30,6 +30,18 @@ export default function Home({ pageContent, listings, faqs }) {
         src="https://cdn.tailwindcss.com"
         strategy="beforeInteractive"
       />
+
+            {/* Load Lucide */}
+      <Script
+        src="https://unpkg.com/lucide@latest"
+        strategy="afterInteractive"
+      />
+      {/* Initialize Lucide after it loads */}
+      <Script id="lucide-init" strategy="afterInteractive">
+        {`lucide.createIcons();`}
+      </Script>
+
+
       {/* SEO + JSON-LD */}
       <Head>
         <title>{pageContent.seoTitle}</title>
@@ -91,7 +103,7 @@ export default function Home({ pageContent, listings, faqs }) {
             <div
               className="flex flex-wrap justify-center items-center gap-2 sm:gap-4 text-xs sm:text-sm text-gray-500 mb-6 sm:mb-8">
               <div className="flex items-center gap-1 sm:gap-2">
-                < Calendar className="w-3 h-3 sm:w-4 sm:h-4"/>
+                <i data-lucide="calendar" class="w-3 h-3 sm:w-4 sm:h-4"></i>
                 <span>Updated July 2025</span>
               </div>
               <div className="w-1 h-1 bg-gray-400 rounded-full"></div>
