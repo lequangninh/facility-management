@@ -134,10 +134,10 @@ function ListingCard({ item }) {
           )}
         </div>
       </div>
-      
+
           {/* Tabs */}
-          <div className="mt-6 border-b border-gray-200">
-            <nav className="flex flex-wrap gap-4 text-sm font-medium text-gray-500">
+          <div className="mt-6 -mx-6 sm:-mx-8 border-b border-gray-200">
+            <nav className="flex flex-wrap gap-6 text-sm px-6 sm:px-8 font-medium text-gray-500">
               {tabs.map((tab) => {
                 const active = activeTab === tab.id;
                 return (
