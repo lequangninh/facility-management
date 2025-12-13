@@ -25,6 +25,7 @@ export async function getStaticProps() {
     revalidate: 300 // ISR (optional)
   };
 }
+
 function ListingCard({ item }) {
   const [activeTab, setActiveTab] = useState("overview");
 
@@ -36,26 +37,35 @@ function ListingCard({ item }) {
   ];
 
   return (
-    <article className="bg-white border border-gray-200 rounded-3xl shadow-sm p-6 sm:p-8">
-      <div className="grid gap-6 lg:grid-cols-[minmax(0,2fr)_minmax(0,1.5fr)] items-start">
-        {/* LEFT: main info */}
+    <article className="bg-white border border-gray-200 rounded-[26px] shadow-sm p-6 sm:p-8">
+      <div className="grid gap-6 lg:grid-cols-[minmax(0,2.1fr)_minmax(0,1.6fr)] items-start">
+        {/* LEFT SIDE */}
         <div>
-          {/* Top row: logo + name + badge */}
+          {/* Top row: logo + name + badge + price */}
           <div className="flex items-start justify-between gap-4">
             <div className="flex gap-3 sm:gap-4">
               {item.logoUrl && (
-                <img
-                  src={item.logoUrl}
-                  alt={item.name}
-                  width={64}
-                  height={64}
-                  className="rounded-2xl object-contain bg-gray-50"
-                />
+                <div className="flex-shrink-0 w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-gray-50 flex items-center justify-center overflow-hidden">
+                  <img
+                    src={item.logoUrl}
+                    alt={item.name}
+                    width={64}
+                    height={64}
+                    className="w-full h-full object-contain"
+                  />
+                </div>
               )}
               <div>
-                <h3 className="text-xl sm:text-2xl font-semibold text-gray-900">
-                  {item.name}
-                </h3>
+                <div className="flex items-center gap-2 flex-wrap">
+                  <h3 className="text-xl sm:text-2xl font-semibold text-gray-900">
+                    {item.name}
+                  </h3>
+                  {item.badgeText && (
+                    <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-yellow-100 text-yellow-800">
+                      ⭐ {item.badgeText}
+                    </span>
+                  )}
+                </div>
                 {item.vendorName && (
                   <p className="text-sm text-gray-500 mt-0.5">
                     By {item.vendorName}
@@ -76,68 +86,61 @@ function ListingCard({ item }) {
               </div>
             </div>
 
-            <div className="flex flex-col gap-2">
-              {item.badgeText && (
-                <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-yellow-100 text-yellow-800">
-                  ⭐ {item.badgeText}
-                </span>
-              )}
+            {/* Price block */}
+            <div className="flex flex-col items-end gap-2">
               {item.pricingLabel && (
-                <div className="text-right">
-                  <div className="text-xs text-gray-500">Starting from</div>
-                  <div className="text-lg font-semibold text-gray-900">
-                    {item.pricingLabel}
+                <div className="inline-flex items-center rounded-full bg-gray-50 px-4 py-2 border border-gray-200">
+                  <div className="text-left">
+                    <div className="text-[11px] uppercase tracking-wide text-gray-500">
+                      Starting from
+                    </div>
+                    <div className="text-base sm:text-lg font-semibold text-gray-900">
+                      {item.pricingLabel}
+                    </div>
                   </div>
                 </div>
               )}
             </div>
           </div>
 
-          {/* Rating sources */}
+          {/* Per-source ratings */}
           {item.ratingSources?.length > 0 && (
             <div className="mt-5 space-y-2">
               {item.ratingSources.map((src, idx) => (
                 <div
                   key={`${src.name}-${idx}`}
-                  className="flex items-center justify-between rounded-full border border-gray-200 px-3 py-2 text-sm bg-gray-50"
+                  className="flex items-center justify-between rounded-full border border-gray-200 bg-white px-4 py-2.5 text-sm shadow-sm"
                 >
                   <span className="text-gray-700">{src.name}</span>
-                  <span className="flex items-center gap-1 text-gray-700">
-                    <span className="text-yellow-400">★★★★☆</span>
-                    <span className="font-medium">{src.score?.toFixed?.(1) ?? src.score}</span>
-                    {src.count != null && (
-                      <span className="text-gray-400">
-                        ({src.count.toLocaleString?.() ?? src.count})
+                  {src.score != null ? (
+                    <span className="flex items-center gap-2 text-gray-700">
+                      {/* simple star bar mimic */}
+                      <span className="text-yellow-400 text-base leading-none">
+                        ★★★★☆
                       </span>
-                    )}
-                  </span>
+                      <span className="font-medium">
+                        {src.score.toFixed ? src.score.toFixed(1) : src.score}
+                      </span>
+                      {src.count != null && (
+                        <span className="text-gray-400">
+                          ({src.count.toLocaleString
+                            ? src.count.toLocaleString()
+                            : src.count}
+                          )
+                        </span>
+                      )}
+                    </span>
+                  ) : (
+                    <span className="text-gray-400">No rating</span>
+                  )}
                 </div>
               ))}
             </div>
           )}
-                {/* RIGHT: video */}
-        <div className="w-full">
-          {item.videoUrl ? (
-            <div className="aspect-video rounded-2xl overflow-hidden shadow-md bg-black">
-              <iframe
-                src={item.videoUrl}
-                title={`${item.name} video`}
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-                className="w-full h-full"
-              />
-            </div>
-          ) : (
-            <div className="aspect-video rounded-2xl bg-gray-100 border border-dashed border-gray-300 flex items-center justify-center text-gray-400 text-sm">
-              No video available
-            </div>
-          )}
-        </div>
-      </div>
 
           {/* Tabs */}
-          <div className="mt-6 -mx-6 sm:-mx-8 border-b border-gray-200">
-            <nav className="flex flex-wrap gap-6 text-sm px-6 sm:px-8 font-medium text-gray-500">
+          <div className="mt-7 border-b border-gray-200">
+            <nav className="flex flex-wrap gap-6 text-sm font-medium text-gray-500">
               {tabs.map((tab) => {
                 const active = activeTab === tab.id;
                 return (
@@ -145,7 +148,7 @@ function ListingCard({ item }) {
                     key={tab.id}
                     type="button"
                     onClick={() => setActiveTab(tab.id)}
-                    className={`pb-2 -mb-px border-b-2 transition-colors ${
+                    className={`pb-3 -mb-px border-b-2 transition-colors flex items-center gap-1 ${
                       active
                         ? "border-blue-600 text-blue-600"
                         : "border-transparent hover:text-gray-700"
@@ -189,9 +192,7 @@ function ListingCard({ item }) {
               <div className="grid gap-4 md:grid-cols-2">
                 {item.pros.length > 0 && (
                   <div>
-                    <h4 className="font-semibold text-green-700 mb-1">
-                      Pros
-                    </h4>
+                    <h4 className="font-semibold text-green-700 mb-1">Pros</h4>
                     <ul className="space-y-1">
                       {item.pros.map((p, idx) => (
                         <li key={idx} className="flex gap-2">
@@ -204,9 +205,7 @@ function ListingCard({ item }) {
                 )}
                 {item.cons.length > 0 && (
                   <div>
-                    <h4 className="font-semibold text-red-700 mb-1">
-                      Cons
-                    </h4>
+                    <h4 className="font-semibold text-red-700 mb-1">Cons</h4>
                     <ul className="space-y-1">
                       {item.cons.map((c, idx) => (
                         <li key={idx} className="flex gap-2">
@@ -237,7 +236,7 @@ function ListingCard({ item }) {
           </div>
 
           {/* CTA section */}
-          <div className="mt-6 rounded-2xl border border-gray-200 bg-gray-50 px-4 py-4 sm:px-6 sm:py-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div className="mt-7 rounded-[24px] border border-gray-200 bg-gray-50 px-5 py-4 sm:px-6 sm:py-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div>
               <h4 className="font-semibold text-gray-900">
                 {item.ctaSectionTitle}
@@ -259,10 +258,29 @@ function ListingCard({ item }) {
           </div>
         </div>
 
-
+        {/* RIGHT SIDE: video card */}
+        <div className="w-full">
+          {item.videoUrl ? (
+            <div className="aspect-video rounded-[24px] overflow-hidden shadow-sm bg-black">
+              <iframe
+                src={item.videoUrl}
+                title={`${item.name} video`}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                className="w-full h-full"
+              />
+            </div>
+          ) : (
+            <div className="aspect-video rounded-[24px] bg-gray-100 border border-gray-200 flex items-center justify-center text-gray-400 text-sm">
+              No video available
+            </div>
+          )}
+        </div>
+      </div>
     </article>
   );
 }
+
 
 // 👇 THIS is the default export and MUST be a React component
 export default function Home({ pageContent, listings, faqs }) {
