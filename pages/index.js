@@ -38,7 +38,8 @@ function ListingCard({ item }) {
 
   return (
     <article className="bg-white border border-gray-200 rounded-[26px] shadow-sm p-6 sm:p-8">
-      <div className="grid gap-6 lg:grid-cols-[minmax(0,2.1fr)_minmax(0,1.6fr)] items-start">
+      {/* TOP GRID: info + video */}
+      <div className="grid gap-6 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] items-start">
         {/* LEFT SIDE */}
         <div>
           {/* Top row: logo + name + badge + price */}
@@ -86,12 +87,12 @@ function ListingCard({ item }) {
               </div>
             </div>
 
-            {/* Price block */}
+            {/* Price pill */}
             <div className="flex flex-col items-end gap-2">
               {item.pricingLabel && (
-                <div className="inline-flex items-center rounded-full bg-gray-50 px-4 py-2 border border-gray-200">
+                <div className="inline-flex items-center rounded-full bg-gray-50 px-5 py-2 border border-gray-200 shadow-sm">
                   <div className="text-left">
-                    <div className="text-[11px] uppercase tracking-wide text-gray-500">
+                    <div className="text-[10px] uppercase tracking-wide text-gray-500">
                       Starting from
                     </div>
                     <div className="text-base sm:text-lg font-semibold text-gray-900">
@@ -114,7 +115,6 @@ function ListingCard({ item }) {
                   <span className="text-gray-700">{src.name}</span>
                   {src.score != null ? (
                     <span className="flex items-center gap-2 text-gray-700">
-                      {/* simple star bar mimic */}
                       <span className="text-yellow-400 text-base leading-none">
                         ★★★★☆
                       </span>
@@ -161,8 +161,8 @@ function ListingCard({ item }) {
             </nav>
           </div>
 
-          {/* Tab content */}
-          <div className="mt-4 space-y-3 text-sm sm:text-base text-gray-700">
+          {/* Tab content – now gets more horizontal space because left column is wider */}
+          <div className="mt-4 space-y-3 text-sm sm:text-base text-gray-700 leading-relaxed">
             {activeTab === "overview" && (
               <>
                 {item.description && (
@@ -192,7 +192,9 @@ function ListingCard({ item }) {
               <div className="grid gap-4 md:grid-cols-2">
                 {item.pros.length > 0 && (
                   <div>
-                    <h4 className="font-semibold text-green-700 mb-1">Pros</h4>
+                    <h4 className="font-semibold text-green-700 mb-1">
+                      Pros
+                    </h4>
                     <ul className="space-y-1">
                       {item.pros.map((p, idx) => (
                         <li key={idx} className="flex gap-2">
@@ -205,7 +207,9 @@ function ListingCard({ item }) {
                 )}
                 {item.cons.length > 0 && (
                   <div>
-                    <h4 className="font-semibold text-red-700 mb-1">Cons</h4>
+                    <h4 className="font-semibold text-red-700 mb-1">
+                      Cons
+                    </h4>
                     <ul className="space-y-1">
                       {item.cons.map((c, idx) => (
                         <li key={idx} className="flex gap-2">
@@ -234,31 +238,9 @@ function ListingCard({ item }) {
               </div>
             )}
           </div>
-
-          {/* CTA section */}
-          <div className="mt-7 rounded-[24px] border border-gray-200 bg-gray-50 px-5 py-4 sm:px-6 sm:py-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-            <div>
-              <h4 className="font-semibold text-gray-900">
-                {item.ctaSectionTitle}
-              </h4>
-              <p className="text-sm text-gray-600 mt-1">
-                {item.ctaSectionText}
-              </p>
-            </div>
-            {item.ctaUrl && (
-              <a
-                href={item.ctaUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center px-5 py-2.5 rounded-xl bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 whitespace-nowrap"
-              >
-                {item.ctaButtonText}
-              </a>
-            )}
-          </div>
         </div>
 
-        {/* RIGHT SIDE: video card */}
+        {/* RIGHT SIDE: video */}
         <div className="w-full">
           {item.videoUrl ? (
             <div className="aspect-video rounded-[24px] overflow-hidden shadow-sm bg-black">
@@ -277,9 +259,32 @@ function ListingCard({ item }) {
           )}
         </div>
       </div>
+
+      {/* CTA section – full card width now */}
+      <div className="mt-7 rounded-[24px] border border-gray-200 bg-gray-50 px-5 py-4 sm:px-6 sm:py-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div className="max-w-2xl">
+          <h4 className="font-semibold text-gray-900">
+            {item.ctaSectionTitle}
+          </h4>
+          <p className="text-sm text-gray-600 mt-1 leading-relaxed">
+            {item.ctaSectionText}
+          </p>
+        </div>
+        {item.ctaUrl && (
+          <a
+            href={item.ctaUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center px-5 py-2.5 rounded-xl bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 whitespace-nowrap"
+          >
+            {item.ctaButtonText}
+          </a>
+        )}
+      </div>
     </article>
   );
 }
+
 
 
 // 👇 THIS is the default export and MUST be a React component
