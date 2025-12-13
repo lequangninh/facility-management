@@ -3,6 +3,11 @@ import Head from "next/head";
 import Script from "next/script";
 import { getPageContent, getListings, getFaqs } from "../lib/airtable";
 import { Calendar } from "lucide-react";
+import { Clock } from "lucide-react";
+import { Users } from "lucide-react";
+import { ChartColumn } from "lucide-react";
+import { Download } from "lucide-react";
+import { useState } from "react";
 
 export async function getStaticProps() {
   const [pageContent, listings, faqs] = await Promise.all([
@@ -20,6 +25,243 @@ export async function getStaticProps() {
     revalidate: 300 // ISR (optional)
   };
 }
+function ListingCard({ item }) {
+  const [activeTab, setActiveTab] = useState("overview");
+
+  const tabs = [
+    { id: "overview", label: "Overview" },
+    { id: "features", label: "Features" },
+    { id: "proscons", label: "Pros & Cons" },
+    { id: "pricing", label: "Pricing" }
+  ];
+
+  return (
+    <article className="bg-white border border-gray-200 rounded-3xl shadow-sm p-6 sm:p-8">
+      <div className="grid gap-6 lg:grid-cols-[minmax(0,2fr)_minmax(0,1.5fr)] items-start">
+        {/* LEFT: main info */}
+        <div>
+          {/* Top row: logo + name + badge */}
+          <div className="flex items-start justify-between gap-4">
+            <div className="flex gap-3 sm:gap-4">
+              {item.logoUrl && (
+                <img
+                  src={item.logoUrl}
+                  alt={item.name}
+                  width={64}
+                  height={64}
+                  className="rounded-2xl object-contain bg-gray-50"
+                />
+              )}
+              <div>
+                <h3 className="text-xl sm:text-2xl font-semibold text-gray-900">
+                  {item.name}
+                </h3>
+                {item.vendorName && (
+                  <p className="text-sm text-gray-500 mt-0.5">
+                    By {item.vendorName}
+                  </p>
+                )}
+                {item.categoryTags?.length > 0 && (
+                  <div className="flex flex-wrap gap-1.5 mt-2">
+                    {item.categoryTags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-700"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <div className="flex flex-col items-end gap-2">
+              {item.badgeText && (
+                <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-yellow-100 text-yellow-800">
+                  ⭐ {item.badgeText}
+                </span>
+              )}
+              {item.pricingLabel && (
+                <div className="text-right">
+                  <div className="text-xs text-gray-500">Starting from</div>
+                  <div className="text-lg font-semibold text-gray-900">
+                    {item.pricingLabel}
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Rating sources */}
+          {item.ratingSources?.length > 0 && (
+            <div className="mt-5 space-y-2">
+              {item.ratingSources.map((src, idx) => (
+                <div
+                  key={`${src.name}-${idx}`}
+                  className="flex items-center justify-between rounded-full border border-gray-200 px-3 py-2 text-sm bg-gray-50"
+                >
+                  <span className="text-gray-700">{src.name}</span>
+                  <span className="flex items-center gap-1 text-gray-700">
+                    <span className="text-yellow-400">★★★★☆</span>
+                    <span className="font-medium">{src.score?.toFixed?.(1) ?? src.score}</span>
+                    {src.count != null && (
+                      <span className="text-gray-400">
+                        ({src.count.toLocaleString?.() ?? src.count})
+                      </span>
+                    )}
+                  </span>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Tabs */}
+          <div className="mt-6 border-b border-gray-200">
+            <nav className="flex flex-wrap gap-4 text-sm font-medium text-gray-500">
+              {tabs.map((tab) => {
+                const active = activeTab === tab.id;
+                return (
+                  <button
+                    key={tab.id}
+                    type="button"
+                    onClick={() => setActiveTab(tab.id)}
+                    className={`pb-2 -mb-px border-b-2 transition-colors ${
+                      active
+                        ? "border-blue-600 text-blue-600"
+                        : "border-transparent hover:text-gray-700"
+                    }`}
+                  >
+                    {tab.label}
+                  </button>
+                );
+              })}
+            </nav>
+          </div>
+
+          {/* Tab content */}
+          <div className="mt-4 space-y-3 text-sm sm:text-base text-gray-700">
+            {activeTab === "overview" && (
+              <>
+                {item.description && (
+                  <p>
+                    <span className="font-semibold">{item.name}</span>{" "}
+                    {item.description}
+                  </p>
+                )}
+                {item.availableFor?.length > 0 && (
+                  <p className="mt-2">
+                    <span className="font-semibold">Available for: </span>
+                    {item.availableFor.join(", ")}
+                  </p>
+                )}
+              </>
+            )}
+
+            {activeTab === "features" && item.features.length > 0 && (
+              <ul className="list-disc pl-5 space-y-1">
+                {item.features.map((feature, idx) => (
+                  <li key={idx}>{feature}</li>
+                ))}
+              </ul>
+            )}
+
+            {activeTab === "proscons" && (
+              <div className="grid gap-4 md:grid-cols-2">
+                {item.pros.length > 0 && (
+                  <div>
+                    <h4 className="font-semibold text-green-700 mb-1">
+                      Pros
+                    </h4>
+                    <ul className="space-y-1">
+                      {item.pros.map((p, idx) => (
+                        <li key={idx} className="flex gap-2">
+                          <span className="mt-0.5 text-green-500">✓</span>
+                          <span>{p}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+                {item.cons.length > 0 && (
+                  <div>
+                    <h4 className="font-semibold text-red-700 mb-1">
+                      Cons
+                    </h4>
+                    <ul className="space-y-1">
+                      {item.cons.map((c, idx) => (
+                        <li key={idx} className="flex gap-2">
+                          <span className="mt-0.5 text-red-500">✕</span>
+                          <span>{c}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {activeTab === "pricing" && (
+              <div>
+                {item.pricingLabel && (
+                  <p className="font-semibold text-gray-900">
+                    {item.pricingLabel}
+                  </p>
+                )}
+                {item.ctaUrl && (
+                  <p className="mt-2 text-gray-600">
+                    Contact vendor for detailed pricing and plans.
+                  </p>
+                )}
+              </div>
+            )}
+          </div>
+
+          {/* CTA section */}
+          <div className="mt-6 rounded-2xl border border-gray-200 bg-gray-50 px-4 py-4 sm:px-6 sm:py-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div>
+              <h4 className="font-semibold text-gray-900">
+                {item.ctaSectionTitle}
+              </h4>
+              <p className="text-sm text-gray-600 mt-1">
+                {item.ctaSectionText}
+              </p>
+            </div>
+            {item.ctaUrl && (
+              <a
+                href={item.ctaUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center px-5 py-2.5 rounded-xl bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 whitespace-nowrap"
+              >
+                {item.ctaButtonText}
+              </a>
+            )}
+          </div>
+        </div>
+
+        {/* RIGHT: video */}
+        <div className="w-full">
+          {item.videoUrl ? (
+            <div className="aspect-video rounded-2xl overflow-hidden shadow-md bg-black">
+              <iframe
+                src={item.videoUrl}
+                title={`${item.name} video`}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                className="w-full h-full"
+              />
+            </div>
+          ) : (
+            <div className="aspect-video rounded-2xl bg-gray-100 border border-dashed border-gray-300 flex items-center justify-center text-gray-400 text-sm">
+              No video available
+            </div>
+          )}
+        </div>
+      </div>
+    </article>
+  );
+}
 
 // 👇 THIS is the default export and MUST be a React component
 export default function Home({ pageContent, listings, faqs }) {
@@ -30,10 +272,6 @@ export default function Home({ pageContent, listings, faqs }) {
         src="https://cdn.tailwindcss.com"
         strategy="beforeInteractive"
       />
-
-      {/* Load Lucide */}
-      <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
-
 
       {/* SEO + JSON-LD */}
       <Head>
@@ -82,6 +320,7 @@ export default function Home({ pageContent, listings, faqs }) {
           <div className="max-w-4xl mx-auto text-center">
             {pageContent.heroPreHeadline && (
               <div className="inline-flex items-center gap-2 bg-white px-3 sm:px-4 py-2 rounded-2xl border border-gray-200 shadow-sm mb-6 sm:mb-8">
+                <ChartColumn className="w-4 h-4 text-blue-600" />  
                 <span className="text-xs sm:text-sm font-medium text-gray-600">
                   {pageContent.heroPreHeadline}
                 </span>
@@ -96,17 +335,17 @@ export default function Home({ pageContent, listings, faqs }) {
             <div
               className="flex flex-wrap justify-center items-center gap-2 sm:gap-4 text-xs sm:text-sm text-gray-500 mb-6 sm:mb-8">
               <div className="flex items-center gap-1 sm:gap-2">
-                <i data-lucide="calendar" className="w-3 h-3 sm:w-4 sm:h-4"></i>
+                <Calendar className="w-3 h-3 sm:w-4 sm:h-4" />
                 <span>Updated July 2025</span>
               </div>
               <div className="w-1 h-1 bg-gray-400 rounded-full"></div>
               <div className="flex items-center gap-1 sm:gap-2">
-                <i data-lucide="clock" className="w-3 h-3 sm:w-4 sm:h-4"></i>
+                <Clock className="w-3 h-3 sm:w-4 sm:h-4" />
                 <span>5 min read</span>
               </div>
               <div className="w-1 h-1 bg-gray-400 rounded-full"></div>
               <div className="flex items-center gap-1 sm:gap-2">
-                <i data-lucide="users" className="w-3 h-3 sm:w-4 sm:h-4"></i>
+                <Users className="w-3 h-3 sm:w-4 sm:h-4" />
                 <span>Expert Reviewed</span>
               </div>
             </div>
@@ -126,6 +365,11 @@ export default function Home({ pageContent, listings, faqs }) {
                   {pageContent.heroButtonText}
                 </a>
               )}
+            <button
+              className="bg-white hover:bg-gray-50 text-gray-900 px-6 sm:px-8 py-3 sm:py-4 rounded-2xl font-medium border border-gray-300 transition-colors shadow-sm hover:shadow-md text-sm sm:text-base">
+              <Download className="w-4 h-4 sm:w-5 sm:h-5 inline mr-2"/>
+              Download Guide
+            </button>
             </div>
           </div>
         </section>
@@ -143,134 +387,15 @@ export default function Home({ pageContent, listings, faqs }) {
               <p className="text-lg sm:text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed px-2">
                 Compare the best facility management software solutions.
               </p>
+                    <p id="software-comparison-description" class="text-base sm:text-lg text-gray-600 mt-4 px-2">
+                    Detailed comparison of leading facility management software platforms with features, pricing, and user
+                    ratings.
+                    </p>
             </div>
 
-            <div className="grid gap-6 lg:gap-8 md:grid-cols-2">
+            <div className="space-y-8">
               {listings.map((item) => (
-                <article
-                  key={item.id}
-                  className="software-card bg-white border border-gray-200 rounded-2xl shadow-sm p-5 sm:p-6 flex flex-col justify-between"
-                >
-                  <div>
-                    <div className="flex items-center justify-between mb-4 gap-3">
-                      <div className="flex items-center gap-3">
-                        {item.logoUrl && (
-                          <img
-                            src={item.logoUrl}
-                            alt={item.name}
-                            width={56}
-                            height={56}
-                            className="rounded-md object-contain"
-                          />
-                        )}
-                        <div>
-                          <h3 className="text-lg font-semibold text-gray-900">
-                            {item.name}
-                          </h3>
-                          {item.categoryTags?.length > 0 && (
-                            <div className="flex flex-wrap gap-1 mt-1">
-                              {item.categoryTags.map((tag) => (
-                                <span
-                                  key={tag}
-                                  className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-700"
-                                >
-                                  {tag}
-                                </span>
-                              ))}
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                      {item.badgeText && (
-                        <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
-                          {item.badgeText}
-                        </span>
-                      )}
-                    </div>
-
-                    <div className="flex flex-wrap items-center gap-3 text-sm text-gray-600 mb-3">
-                      {item.ratingScore != null && (
-                        <span>
-                          ⭐ {item.ratingScore}
-                          {item.ratingCount != null && (
-                            <span className="text-gray-400">
-                              {" "}
-                              ({item.ratingCount} reviews)
-                            </span>
-                          )}
-                        </span>
-                      )}
-                      {item.pricingLabel && (
-                        <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
-                          {item.pricingLabel}
-                        </span>
-                      )}
-                    </div>
-
-                    {item.description && (
-                      <p className="text-sm sm:text-base text-gray-600 mb-4">
-                        {item.description}
-                      </p>
-                    )}
-
-                    {item.features.length > 0 && (
-                      <ul className="mt-3 space-y-1 text-sm text-gray-600">
-                        {item.features.map((feature, idx) => (
-                          <li key={idx} className="flex items-start gap-2">
-                            <span className="mt-1 text-green-500">●</span>
-                            <span>{feature}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    )}
-
-                    <div className="mt-4 grid gap-4 md:grid-cols-2">
-                      {item.pros.length > 0 && (
-                        <div>
-                          <h4 className="text-sm font-semibold text-green-700 mb-1">
-                            Pros
-                          </h4>
-                          <ul className="space-y-1 text-sm text-gray-700">
-                            {item.pros.map((p, idx) => (
-                              <li key={idx} className="flex gap-2">
-                                <span className="mt-0.5 text-green-500">
-                                  ✓
-                                </span>
-                                <span>{p}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      )}
-                      {item.cons.length > 0 && (
-                        <div>
-                          <h4 className="text-sm font-semibold text-red-700 mb-1">
-                            Cons
-                          </h4>
-                          <ul className="space-y-1 text-sm text-gray-700">
-                            {item.cons.map((c, idx) => (
-                              <li key={idx} className="flex gap-2">
-                                <span className="mt-0.5 text-red-500">✕</span>
-                                <span>{c}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-
-                  <div className="mt-5">
-                    <a
-                      href={item.ctaUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex justify-center items-center w-full sm:w-auto px-4 py-2.5 rounded-xl bg-blue-600 text-white text-sm font-medium hover:bg-blue-700 transition-colors"
-                    >
-                      Visit Website
-                    </a>
-                  </div>
-                </article>
+                <ListingCard key={item.id} item={item} />
               ))}
             </div>
           </div>
