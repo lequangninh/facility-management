@@ -38,11 +38,11 @@ function ListingCard({ item }) {
 
   return (
     <article className="bg-white border border-gray-200 rounded-[26px] shadow-sm p-6 sm:p-8">
-      {/* TOP GRID: info + video */}
+      {/* TOP: INFO + VIDEO */}
       <div className="grid gap-6 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] items-start">
-        {/* LEFT SIDE */}
+        {/* LEFT SIDE: logo, name, ratings */}
         <div>
-          {/* Top row: logo + name + badge + price */}
+          {/* Header row */}
           <div className="flex items-start justify-between gap-4">
             <div className="flex gap-3 sm:gap-4">
               {item.logoUrl && (
@@ -137,107 +137,6 @@ function ListingCard({ item }) {
               ))}
             </div>
           )}
-
-          {/* Tabs */}
-          <div className="mt-7 border-b border-gray-200">
-            <nav className="flex flex-wrap gap-6 text-sm font-medium text-gray-500">
-              {tabs.map((tab) => {
-                const active = activeTab === tab.id;
-                return (
-                  <button
-                    key={tab.id}
-                    type="button"
-                    onClick={() => setActiveTab(tab.id)}
-                    className={`pb-3 -mb-px border-b-2 transition-colors flex items-center gap-1 ${
-                      active
-                        ? "border-blue-600 text-blue-600"
-                        : "border-transparent hover:text-gray-700"
-                    }`}
-                  >
-                    {tab.label}
-                  </button>
-                );
-              })}
-            </nav>
-          </div>
-
-          {/* Tab content – now gets more horizontal space because left column is wider */}
-          <div className="mt-4 space-y-3 text-sm sm:text-base text-gray-700 leading-relaxed">
-            {activeTab === "overview" && (
-              <>
-                {item.description && (
-                  <p>
-                    <span className="font-semibold">{item.name}</span>{" "}
-                    {item.description}
-                  </p>
-                )}
-                {item.availableFor?.length > 0 && (
-                  <p className="mt-2">
-                    <span className="font-semibold">Available for: </span>
-                    {item.availableFor.join(", ")}
-                  </p>
-                )}
-              </>
-            )}
-
-            {activeTab === "features" && item.features.length > 0 && (
-              <ul className="list-disc pl-5 space-y-1">
-                {item.features.map((feature, idx) => (
-                  <li key={idx}>{feature}</li>
-                ))}
-              </ul>
-            )}
-
-            {activeTab === "proscons" && (
-              <div className="grid gap-4 md:grid-cols-2">
-                {item.pros.length > 0 && (
-                  <div>
-                    <h4 className="font-semibold text-green-700 mb-1">
-                      Pros
-                    </h4>
-                    <ul className="space-y-1">
-                      {item.pros.map((p, idx) => (
-                        <li key={idx} className="flex gap-2">
-                          <span className="mt-0.5 text-green-500">✓</span>
-                          <span>{p}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-                {item.cons.length > 0 && (
-                  <div>
-                    <h4 className="font-semibold text-red-700 mb-1">
-                      Cons
-                    </h4>
-                    <ul className="space-y-1">
-                      {item.cons.map((c, idx) => (
-                        <li key={idx} className="flex gap-2">
-                          <span className="mt-0.5 text-red-500">✕</span>
-                          <span>{c}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-              </div>
-            )}
-
-            {activeTab === "pricing" && (
-              <div>
-                {item.pricingLabel && (
-                  <p className="font-semibold text-gray-900">
-                    {item.pricingLabel}
-                  </p>
-                )}
-                {item.ctaUrl && (
-                  <p className="mt-2 text-gray-600">
-                    Contact vendor for detailed pricing and plans.
-                  </p>
-                )}
-              </div>
-            )}
-          </div>
         </div>
 
         {/* RIGHT SIDE: video */}
@@ -260,7 +159,103 @@ function ListingCard({ item }) {
         </div>
       </div>
 
-      {/* CTA section – full card width now */}
+      {/* TABS + CONTENT – FULL WIDTH */}
+      <div className="mt-7 border-b border-gray-200">
+        <nav className="flex flex-wrap gap-6 text-sm font-medium text-gray-500">
+          {tabs.map((tab) => {
+            const active = activeTab === tab.id;
+            return (
+              <button
+                key={tab.id}
+                type="button"
+                onClick={() => setActiveTab(tab.id)}
+                className={`pb-3 -mb-px border-b-2 transition-colors flex items-center gap-1 ${
+                  active
+                    ? "border-blue-600 text-blue-600"
+                    : "border-transparent hover:text-gray-700"
+                }`}
+              >
+                {tab.label}
+              </button>
+            );
+          })}
+        </nav>
+      </div>
+
+      <div className="mt-4 space-y-3 text-sm sm:text-base text-gray-700 leading-relaxed">
+        {activeTab === "overview" && (
+          <>
+            {item.description && (
+              <p>
+                <span className="font-semibold">{item.name}</span>{" "}
+                {item.description}
+              </p>
+            )}
+            {item.availableFor?.length > 0 && (
+              <p className="mt-2">
+                <span className="font-semibold">Available for: </span>
+                {item.availableFor.join(", ")}
+              </p>
+            )}
+          </>
+        )}
+
+        {activeTab === "features" && item.features.length > 0 && (
+          <ul className="list-disc pl-5 space-y-1">
+            {item.features.map((feature, idx) => (
+              <li key={idx}>{feature}</li>
+            ))}
+          </ul>
+        )}
+
+        {activeTab === "proscons" && (
+          <div className="grid gap-4 md:grid-cols-2">
+            {item.pros.length > 0 && (
+              <div>
+                <h4 className="font-semibold text-green-700 mb-1">Pros</h4>
+                <ul className="space-y-1">
+                  {item.pros.map((p, idx) => (
+                    <li key={idx} className="flex gap-2">
+                      <span className="mt-0.5 text-green-500">✓</span>
+                      <span>{p}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+            {item.cons.length > 0 && (
+              <div>
+                <h4 className="font-semibold text-red-700 mb-1">Cons</h4>
+                <ul className="space-y-1">
+                  {item.cons.map((c, idx) => (
+                    <li key={idx} className="flex gap-2">
+                      <span className="mt-0.5 text-red-500">✕</span>
+                      <span>{c}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+        )}
+
+        {activeTab === "pricing" && (
+          <div>
+            {item.pricingLabel && (
+              <p className="font-semibold text-gray-900">
+                {item.pricingLabel}
+              </p>
+            )}
+            {item.ctaUrl && (
+              <p className="mt-2 text-gray-600">
+                Contact vendor for detailed pricing and plans.
+              </p>
+            )}
+          </div>
+        )}
+      </div>
+
+      {/* CTA – FULL WIDTH (unchanged) */}
       <div className="mt-7 rounded-[24px] border border-gray-200 bg-gray-50 px-5 py-4 sm:px-6 sm:py-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div className="max-w-2xl">
           <h4 className="font-semibold text-gray-900">
@@ -284,7 +279,6 @@ function ListingCard({ item }) {
     </article>
   );
 }
-
 
 
 // 👇 THIS is the default export and MUST be a React component
