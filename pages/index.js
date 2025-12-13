@@ -76,7 +76,7 @@ function ListingCard({ item }) {
               </div>
             </div>
 
-            <div className="flex flex-col items-end gap-2">
+            <div className="flex flex-col gap-2">
               {item.badgeText && (
                 <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-yellow-100 text-yellow-800">
                   ⭐ {item.badgeText}
@@ -115,7 +115,26 @@ function ListingCard({ item }) {
               ))}
             </div>
           )}
-
+                {/* RIGHT: video */}
+        <div className="w-full">
+          {item.videoUrl ? (
+            <div className="aspect-video rounded-2xl overflow-hidden shadow-md bg-black">
+              <iframe
+                src={item.videoUrl}
+                title={`${item.name} video`}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                className="w-full h-full"
+              />
+            </div>
+          ) : (
+            <div className="aspect-video rounded-2xl bg-gray-100 border border-dashed border-gray-300 flex items-center justify-center text-gray-400 text-sm">
+              No video available
+            </div>
+          )}
+        </div>
+      </div>
+      
           {/* Tabs */}
           <div className="mt-6 border-b border-gray-200">
             <nav className="flex flex-wrap gap-4 text-sm font-medium text-gray-500">
@@ -240,25 +259,7 @@ function ListingCard({ item }) {
           </div>
         </div>
 
-        {/* RIGHT: video */}
-        <div className="w-full">
-          {item.videoUrl ? (
-            <div className="aspect-video rounded-2xl overflow-hidden shadow-md bg-black">
-              <iframe
-                src={item.videoUrl}
-                title={`${item.name} video`}
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-                className="w-full h-full"
-              />
-            </div>
-          ) : (
-            <div className="aspect-video rounded-2xl bg-gray-100 border border-dashed border-gray-300 flex items-center justify-center text-gray-400 text-sm">
-              No video available
-            </div>
-          )}
-        </div>
-      </div>
+
     </article>
   );
 }
