@@ -105,62 +105,60 @@ function ListingCard({ item }) {
           </div>
 
           {/* Per-source ratings */}
-          {item.ratingSources && item.ratingSources.length > 0 && (
-            <div className="mt-4 space-y-3">
-              {item.ratingSources.map((src) => (
+          {item.ratingSources?.length > 0 && (
+            <div className="mt-5 space-y-2">
+              {item.ratingSources.map((src, idx) => (
                 <div
-                  key={src.source}
-                  className="rounded-full border border-gray-200 bg-white px-4 py-2.5"
+                  key={`${src.name}-${idx}`}
+                  className="flex items-center justify-between rounded-full border border-gray-200 bg-white px-4 py-2.5 text-sm shadow-sm"
                 >
-                  <div className="grid grid-cols-[1.5fr,1fr,1.3fr] items-center gap-2 text-xs sm:text-sm">
-                    {/* Left: source name */}
-                    <div className="flex items-center">
-                      <span className="text-gray-800 font-medium">{src.source}</span>
-                    </div>
-
-                    {/* Middle: stars, centered */}
-                    <div className="flex justify-center text-yellow-400">
-                      <span>{starString(src.rating)}</span>
-                    </div>
-
-                    {/* Right: numeric rating + reviews */}
-                    <div className="flex justify-end items-center gap-1 text-gray-700">
-                      <span className="font-semibold">
-                        {Number(src.rating).toFixed(1)}
+                  <span className="text-gray-700">{src.name}</span>
+                  {src.score != null ? (
+                    <span className="flex items-center gap-2 text-gray-700">
+                      <span className="text-yellow-400 text-base leading-none">
+                        ★★★★☆
                       </span>
-                      {src.reviews && (
+                      <span className="font-medium">
+                        {src.score.toFixed ? src.score.toFixed(1) : src.score}
+                      </span>
+                      {src.count != null && (
                         <span className="text-gray-400">
-                          ({src.reviews.toLocaleString()})
+                          ({src.count.toLocaleString
+                            ? src.count.toLocaleString()
+                            : src.count}
+                          )
                         </span>
                       )}
-                    </div>
-                  </div>
+                    </span>
+                  ) : (
+                    <span className="text-gray-400">No rating</span>
+                  )}
                 </div>
               ))}
             </div>
           )}
+        </div>
 
-
-          {/* RIGHT SIDE: video */}
-          <div className="w-full">
-            {item.videoUrl ? (
-              <div className="aspect-video rounded-[24px] overflow-hidden shadow-sm bg-black">
-                <iframe
-                  src={item.videoUrl}
-                  title={`${item.name} video`}
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                  className="w-full h-full"
-                />
-              </div>
-            ) : (
-              <div className="aspect-video rounded-[24px] bg-gray-100 border border-gray-200 flex items-center justify-center text-gray-400 text-sm">
-                No video available
-              </div>
-            )}
-          </div>
+        {/* RIGHT SIDE: video */}
+        <div className="w-full">
+          {item.videoUrl ? (
+            <div className="aspect-video rounded-[24px] overflow-hidden shadow-sm bg-black">
+              <iframe
+                src={item.videoUrl}
+                title={`${item.name} video`}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                className="w-full h-full"
+              />
+            </div>
+          ) : (
+            <div className="aspect-video rounded-[24px] bg-gray-100 border border-gray-200 flex items-center justify-center text-gray-400 text-sm">
+              No video available
+            </div>
+          )}
         </div>
       </div>
+
       {/* TABS + CONTENT – FULL WIDTH */}
       <div className="mt-7 border-b border-gray-200">
         <nav className="flex flex-wrap gap-6 text-sm font-medium text-gray-500">
