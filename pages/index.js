@@ -121,7 +121,7 @@ function ListingCard({ item }) {
 
                   {/* Middle: stars + score, centered in remaining space */}
                   {src.score != null ? (
-                    <div className="ml-auto flex items-center gap-2 text-gray-700">
+                    <div className="flex-1 flex items-center justify-end gap-1 text-gray-700">
                       <span className="text-yellow-400 text-base leading-none">
                         ★★★★☆
                       </span>
@@ -130,13 +130,13 @@ function ListingCard({ item }) {
                       </span>
                     </div>
                   ) : (
-                    <div className="ml-auto text-gray-400 text-sm">
+                    <div className="flex-1 text-center text-gray-400">
                       No rating
                     </div>
                   )}
 
                   {/* Right: count */}
-                  <span className="ml-auto text-gray-400 text-xs sm:text-sm min-w-[70px]">
+                  <span className="text-right text-gray-400 text-xs sm:text-sm min-w-[70px]">
                     {src.count != null
                       ? `(${
                           src.count.toLocaleString
