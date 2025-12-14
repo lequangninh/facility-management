@@ -106,7 +106,7 @@ function ListingCard({ item }) {
 
           {/* Per-source ratings */}
           {item.ratingSources?.length > 0 && (
-            <div className="mt-5 space-y-2 max-w-md">
+            <div className="mt-5 space-y-2 max-w-sm mx-auto">
               {item.ratingSources.map((src, idx) => (
             <div
                 key={`${src.name}-${idx}`}
@@ -121,7 +121,7 @@ function ListingCard({ item }) {
 
                   {/* Middle: stars + score, centered in remaining space */}
                   {src.score != null ? (
-                    <div className="flex-1 flex items-center justify-center gap-1 text-gray-700">
+                    <div className="flex-1 flex items-right justify-center gap-1 text-gray-700">
                       <span className="text-yellow-400 text-base leading-none">
                         ★★★★☆
                       </span>
@@ -130,7 +130,7 @@ function ListingCard({ item }) {
                       </span>
                     </div>
                   ) : (
-                    <div className="flex-1 text-center text-gray-400">
+                    <div className="flex-1 text-right text-gray-400">
                       No rating
                     </div>
                   )}
