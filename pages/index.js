@@ -108,43 +108,45 @@ function ListingCard({ item }) {
           {item.ratingSources?.length > 0 && (
             <div className="mt-5 space-y-2">
               {item.ratingSources.map((src, idx) => (
-                <div
-                  key={`${src.name}-${idx}`}
-                  className="rounded-full border border-gray-200 bg-white px-4 py-2.5 text-sm shadow-sm"
-                >
-                  {/* 3 equal columns: left label, middle rating (center), right count */}
-                  <div className="grid grid-cols-3 items-center w-full">
-                    {/* left: source name */}
-                    <span className="text-gray-700 truncate">
-                      {src.name}
-                    </span>
+            <div
+                key={`${src.name}-${idx}`}
+                className="rounded-full border border-gray-200 bg-white px-4 py-2.5 text-sm shadow-sm"
+              >
+                {/* FLEX layout: left label, middle rating (centered area), right count */}
+                <div className="flex items-center w-full gap-3">
+                  {/* Left: source name */}
+                  <span className="text-gray-700 truncate">
+                    {src.name}
+                  </span>
 
-                    {/* middle: stars + score, centered */}
-                    {src.score != null ? (
-                      <div className="flex items-center justify-center gap-1 text-gray-700">
-                        <span className="text-yellow-400 text-base leading-none">
-                          ★★★★☆
-                        </span>
-                        <span className="font-medium">
-                          {src.score.toFixed ? src.score.toFixed(1) : src.score}
-                        </span>
-                      </div>
-                    ) : (
-                      <div className="text-gray-400 text-center">No rating</div>
-                    )}
+                  {/* Middle: stars + score, centered in remaining space */}
+                  {src.score != null ? (
+                    <div className="flex-1 flex items-center justify-center gap-1 text-gray-700">
+                      <span className="text-yellow-400 text-base leading-none">
+                        ★★★★☆
+                      </span>
+                      <span className="font-medium">
+                        {src.score.toFixed ? src.score.toFixed(1) : src.score}
+                      </span>
+                    </div>
+                  ) : (
+                    <div className="flex-1 text-center text-gray-400">
+                      No rating
+                    </div>
+                  )}
 
-                    {/* right: count */}
-                    <span className="text-right text-gray-400 text-xs sm:text-sm">
-                      {src.count != null
-                        ? `(${
-                            src.count.toLocaleString
-                              ? src.count.toLocaleString()
-                              : src.count
-                          })`
-                        : ""}
-                    </span>
-                  </div>
+                  {/* Right: count */}
+                  <span className="text-right text-gray-400 text-xs sm:text-sm min-w-[70px]">
+                    {src.count != null
+                      ? `(${
+                          src.count.toLocaleString
+                            ? src.count.toLocaleString()
+                            : src.count
+                        })`
+                      : ""}
+                  </span>
                 </div>
+              </div>
               ))}
             </div>
           )}
