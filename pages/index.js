@@ -141,26 +141,26 @@ function ListingCard({ item }) {
           )}
 
 
-        {/* RIGHT SIDE: video */}
-        <div className="w-full">
-          {item.videoUrl ? (
-            <div className="aspect-video rounded-[24px] overflow-hidden shadow-sm bg-black">
-              <iframe
-                src={item.videoUrl}
-                title={`${item.name} video`}
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-                className="w-full h-full"
-              />
-            </div>
-          ) : (
-            <div className="aspect-video rounded-[24px] bg-gray-100 border border-gray-200 flex items-center justify-center text-gray-400 text-sm">
-              No video available
-            </div>
-          )}
+          {/* RIGHT SIDE: video */}
+          <div className="w-full">
+            {item.videoUrl ? (
+              <div className="aspect-video rounded-[24px] overflow-hidden shadow-sm bg-black">
+                <iframe
+                  src={item.videoUrl}
+                  title={`${item.name} video`}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  className="w-full h-full"
+                />
+              </div>
+            ) : (
+              <div className="aspect-video rounded-[24px] bg-gray-100 border border-gray-200 flex items-center justify-center text-gray-400 text-sm">
+                No video available
+              </div>
+            )}
+          </div>
         </div>
       </div>
-
       {/* TABS + CONTENT – FULL WIDTH */}
       <div className="mt-7 border-b border-gray-200">
         <nav className="flex flex-wrap gap-6 text-sm font-medium text-gray-500">
