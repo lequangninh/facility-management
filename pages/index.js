@@ -126,7 +126,7 @@ function ListingCard({ item }) {
                         ★★★★☆
                       </span>
                       <span className="font-medium">
-                        {src.score.toFixed ? src.score.toFixed(1) : src.score}
+                        {src.score.toFixed ? src.score.toFixed(1) : src.score}☆
                       </span>
                     </div>
                   ) : (
