@@ -106,11 +106,11 @@ function ListingCard({ item }) {
 
           {/* Per-source ratings */}
           {item.ratingSources?.length > 0 && (
-            <div className="mt-5 space-y-2">
+            <div className="mt-5 space-y-2 max-w-md">
               {item.ratingSources.map((src, idx) => (
             <div
                 key={`${src.name}-${idx}`}
-                className="rounded-full border border-gray-200 bg-white px-4 py-2.5 text-sm shadow-sm"
+                className="rounded-lg border border-gray-200 bg-white px-4 py-2.5 text-sm shadow-sm"
               >
                 {/* FLEX layout: left label, middle rating (centered area), right count */}
                 <div className="flex items-center w-full gap-3">
