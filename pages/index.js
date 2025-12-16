@@ -396,11 +396,6 @@ export default function Home({ pageContent, listings, faqs }) {
                   {pageContent.heroButtonText}
                 </a>
               )}
-            <button
-              className="bg-white hover:bg-gray-50 text-gray-900 px-6 sm:px-8 py-3 sm:py-4 rounded-2xl font-medium border border-gray-300 transition-colors shadow-sm hover:shadow-md text-sm sm:text-base">
-              <Download className="w-4 h-4 sm:w-5 sm:h-5 inline mr-2"/>
-              Download Guide
-            </button>
             </div>
           </div>
         </section>
