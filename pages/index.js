@@ -324,7 +324,8 @@ export default function Home({ pageContent, listings, faqs }) {
           />
         )}
       </Head>
-
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />   
       {/* HEADER */}
       <header className="bg-white border-b border-gray-200">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
