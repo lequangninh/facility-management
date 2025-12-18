@@ -106,7 +106,7 @@ function ListingCard({ item }) {
 
           {/* Per-source ratings */}
           {item.ratingSources?.length > 0 && (
-            <div className="mt-5 space-y-2 max-w-sm mx-auto">
+            <div className="mt-5 space-y-2 max-w-xs mx-auto">
               {item.ratingSources.map((src, idx) => (
                 <div
                   key={`${src.name}-${idx}`}
