@@ -296,6 +296,11 @@ function ListingCard({ item }) {
 
 // 👇 THIS is the default export and MUST be a React component
 export default function Home({ pageContent, listings, faqs }) {
+    const pageUrl = "https://facility-management-software.com";
+    const ogImage =
+    "https://facility-management-software.com/assets/facility-management-og.jpg";
+    const twitterImage =
+    "https://facility-management-software.com/assets/facility-management-twitter.jpg";
   return (
     <>
         {/* Tailwind via CDN */}
@@ -304,28 +309,87 @@ export default function Home({ pageContent, listings, faqs }) {
         strategy="beforeInteractive"
       />
 
-      {/* SEO + JSON-LD */}
-      <Head>
+    <Head>
+        {/* Basic SEO */}
         <title>{pageContent.seoTitle}</title>
-        {pageContent.seoDescription && (
-          <meta name="description" content={pageContent.seoDescription} />
-        )}
-        <meta charSet="UTF-8" />
+        <meta name="description" content={pageContent.seoDescription} />
         <meta
           name="viewport"
           content="width=device-width, initial-scale=1.0"
         />
-        {pageContent.customSchemaJson && (
-          <script
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{
-              __html: pageContent.customSchemaJson
-            }}
-          />
-        )}
+        <meta
+          name="keywords"
+          content="facility management software, CAFM software, CMMS systems, ERP facility management, EAM software, IWMS platforms, building management software, maintenance management"
+        />
+        <meta name="author" content="Facility Management Software Guide" />
+        <meta name="robots" content="index, follow" />
+        <meta name="language" content="English" />
+        <meta name="revisit-after" content="7 days" />
+        {/* viewport (charset is handled by Next) */}
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1.0"
+        />
+
+        {/* Open Graph */}
+        <meta property="og:title" content={pageContent.seoTitle} />
+        <meta
+          property="og:description"
+          content={pageContent.seoDescription}
+        />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={pageUrl} />
+        <meta property="og:image" content={ogImage} />
+        <meta
+          property="og:site_name"
+          content="Facility Management Software Guide"
+        />
+
+        {/* Twitter Card */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={pageContent.seoTitle} />
+        <meta
+          name="twitter:description"
+          content={pageContent.seoDescription}
+        />
+        <meta name="twitter:image" content={twitterImage} />
+
+        {/* Canonical */}
+        <link rel="canonical" href={pageUrl} />
+
+        {/* Favicons */}
+        <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+        <link
+          rel="apple-touch-icon"
+          sizes="180x180"
+          href="/apple-touch-icon.png"
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="32x32"
+          href="/favicon-32x32.png"
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="16x16"
+          href="/favicon-16x16.png"
+        />
+
+        {/* Fonts (same as your static HTML) */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet"
+        />
       </Head>
-      <meta charset="UTF-8" />
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />   
+
       {/* HEADER */}
       <header className="bg-white border-b border-gray-200">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
