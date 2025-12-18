@@ -18,7 +18,12 @@ import {
   XCircle,
   Check,
   Rocket,
-  Star
+  Star,  
+  Building2,
+  Twitter,
+  Linkedin,
+  Facebook,
+  Youtube
 } from "lucide-react";
 
 export async function getStaticProps() {
@@ -621,12 +626,109 @@ export default function Home({ pageContent, listings, faqs }) {
         )}
       </main>
 
-      <footer className="bg-white border-t border-gray-200 py-6 mt-8">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 text-sm text-gray-500 flex flex-col sm:flex-row gap-2 sm:gap-0 justify-between">
-          <span>
-            © {new Date().getFullYear()} Facility Management Software Guide
-          </span>
-          <span>Powered by Airtable CMS</span>
+      <footer className="bg-gray-900 text-white py-12 sm:py-16" role="contentinfo">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          {/* TOP: brand + social icons + Link 1/2/3 */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-12 mb-8 sm:mb-12">
+            {/* Brand + description */}
+            <div className="sm:col-span-2 lg:col-span-1">
+              <div className="flex items-center gap-2 sm:gap-3 mb-4">
+                <div className="w-7 h-7 sm:w-8 sm:h-8 bg-blue-600 rounded-2xl flex items-center justify-center">
+                  <Building2 className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
+                </div>
+                <span className="text-lg sm:text-xl font-semibold">
+                  Facility Management Software Guide
+                </span>
+              </div>
+
+              <p className="text-sm sm:text-base text-gray-400 leading-relaxed mb-6 max-w-xl">
+                Your trusted source for facility management software comparisons,
+                reviews, and expert insights.
+              </p>
+
+              <div className="flex gap-3 sm:gap-4">
+                <a
+                  href="#"
+                  className="w-9 h-9 sm:w-10 sm:h-10 bg-gray-800 rounded-2xl flex items-center justify-center hover:bg-gray-700 transition-colors"
+                >
+                  <Twitter className="w-4 h-4 sm:w-5 sm:h-5" />
+                </a>
+                <a
+                  href="#"
+                  className="w-9 h-9 sm:w-10 sm:h-10 bg-gray-800 rounded-2xl flex items-center justify-center hover:bg-gray-700 transition-colors"
+                >
+                  <Linkedin className="w-4 h-4 sm:w-5 sm:h-5" />
+                </a>
+                <a
+                  href="#"
+                  className="w-9 h-9 sm:w-10 sm:h-10 bg-gray-800 rounded-2xl flex items-center justify-center hover:bg-gray-700 transition-colors"
+                >
+                  <Facebook className="w-4 h-4 sm:w-5 sm:h-5" />
+                </a>
+                <a
+                  href="#"
+                  className="w-9 h-9 sm:w-10 sm:h-10 bg-gray-800 rounded-2xl flex items-center justify-center hover:bg-gray-700 transition-colors"
+                >
+                  <Youtube className="w-4 h-4 sm:w-5 sm:h-5" />
+                </a>
+              </div>
+            </div>
+
+            {/* Link 1 / Link 2 / Link 3 – no extra sections */}
+            <div className="flex items-start lg:justify-end">
+              <a
+                href="https://example.com/link1"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-base sm:text-lg font-semibold text-gray-200 hover:text-white transition-colors"
+              >
+                Link 1
+              </a>
+            </div>
+
+            <div className="flex items-start lg:justify-end">
+              <a
+                href="https://example.com/link2"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-base sm:text-lg font-semibold text-gray-200 hover:text-white transition-colors"
+              >
+                Link 2
+              </a>
+            </div>
+
+            <div className="flex items-start lg:justify-end">
+              <a
+                href="https://example.com/link3"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-base sm:text-lg font-semibold text-gray-200 hover:text-white transition-colors"
+              >
+                Link 3
+              </a>
+            </div>
+          </div>
+
+          {/* BOTTOM: copyright + small utility links */}
+          <div className="border-t border-gray-800 pt-6 sm:pt-8">
+            <div className="flex flex-col sm:flex-row justify-between items-center gap-3 sm:gap-4">
+              <p className="text-gray-400 text-xs sm:text-sm text-center sm:text-left">
+                © {new Date().getFullYear()} Facility Management Software Guide. All rights reserved.
+              </p>
+
+              <div className="flex flex-wrap gap-4 sm:gap-6 text-xs sm:text-sm justify-center sm:justify-end">
+                <a href="/sitemap" className="text-gray-400 hover:text-white transition-colors">
+                  Sitemap
+                </a>
+                <a href="/accessibility" className="text-gray-400 hover:text-white transition-colors">
+                  Accessibility
+                </a>
+                <a href="/gdpr" className="text-gray-400 hover:text-white transition-colors">
+                  GDPR Compliance
+                </a>
+              </div>
+            </div>
+          </div>
         </div>
       </footer>
     </div>
