@@ -100,39 +100,45 @@ function ListingCard({ item }) {
             )}
           </div>
 
-          {/* Per-source ratings – full width on mobile */}
+          {/* Per-source ratings – mobile friendly */}
           {item.ratingSources?.length > 0 && (
             <div className="mt-4 sm:mt-5 space-y-2">
               {item.ratingSources.map((src, idx) => (
                 <div
                   key={`${src.name}-${idx}`}
-                  className="flex items-center justify-between w-full rounded-full border border-gray-200 bg-white px-4 py-2.5 text-sm shadow-sm"
+                  className="w-full rounded-full border border-gray-200 bg-white px-4 py-2.5 text-sm shadow-sm"
                 >
-                  {/* Left: source name */}
-                  <span className="text-gray-700 truncate">{src.name}</span>
-
-                  {/* Right: stars + score + count */}
-                  {src.score != null ? (
-                    <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-700">
-                      <span className="text-yellow-400 text-base leading-none">
-                        ★★★★☆
-                      </span>
-                      <span className="font-medium">
-                        {src.score.toFixed ? src.score.toFixed(1) : src.score}
-                      </span>
-                      {src.count != null && (
-                        <span className="text-gray-400">
-                          {src.count.toLocaleString
-                            ? `(${src.count.toLocaleString()})`
-                            : `(${src.count})`}
-                        </span>
-                      )}
-                    </div>
-                  ) : (
-                    <span className="text-gray-400 text-xs sm:text-sm">
-                      No rating
+                  {/* On mobile: column (name on top, rating below)
+                      From sm: row (name left, rating right) */}
+                  <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between w-full">
+                    {/* Source name */}
+                    <span className="text-gray-700 truncate sm:max-w-[40%]">
+                      {src.name}
                     </span>
-                  )}
+
+                    {/* Stars + score + count */}
+                    {src.score != null ? (
+                      <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-700 sm:justify-end">
+                        <span className="text-yellow-400 text-base leading-none">
+                          ★★★★☆
+                        </span>
+                        <span className="font-medium">
+                          {src.score.toFixed ? src.score.toFixed(1) : src.score}
+                        </span>
+                        {src.count != null && (
+                          <span className="text-gray-400">
+                            {src.count.toLocaleString
+                              ? `(${src.count.toLocaleString()})`
+                              : `(${src.count})`}
+                          </span>
+                        )}
+                      </div>
+                    ) : (
+                      <span className="text-gray-400 text-xs sm:text-sm">
+                        No rating
+                      </span>
+                    )}
+                  </div>
                 </div>
               ))}
             </div>
