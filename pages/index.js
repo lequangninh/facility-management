@@ -1,13 +1,9 @@
 // pages/index.js
 import Head from "next/head";
 import Script from "next/script";
-import { getPageContent, getListings, getFaqs } from "../lib/airtable";
-import { Calendar } from "lucide-react";
-import { Clock } from "lucide-react";
-import { Users } from "lucide-react";
-import { ChartColumn } from "lucide-react";
-import { Download } from "lucide-react";
 import { useState } from "react";
+import { Calendar, Clock, Users, ChartColumn } from "lucide-react";
+import { getPageContent, getListings, getFaqs } from "../lib/airtable";
 
 export async function getStaticProps() {
   const [pageContent, listings, faqs] = await Promise.all([
@@ -88,37 +84,37 @@ function ListingCard({ item }) {
             </div>
           </div>
 
-            {/* Price pill */}
-            <div className="mt-5 flex flex-col items-center gap-2">
-              {item.pricingLabel && (
-                <div className="inline-flex items-center rounded-full bg-gray-50 px-5 py-2 border border-gray-200 shadow-sm">
-                  <div className="text-left">
-                    <div className="text-[10px] uppercase tracking-wide text-gray-500">
-                      Starting from
-                    </div>
-                    <div className="text-base sm:text-lg font-semibold text-gray-900">
-                      {item.pricingLabel}
-                    </div>
+          {/* Price pill */}
+          <div className="mt-5 flex flex-col items-center sm:items-start gap-2">
+            {item.pricingLabel && (
+              <div className="inline-flex items-center rounded-full bg-gray-50 px-5 py-2 border border-gray-200 shadow-sm">
+                <div className="text-left">
+                  <div className="text-[10px] uppercase tracking-wide text-gray-500">
+                    Starting from
+                  </div>
+                  <div className="text-base sm:text-lg font-semibold text-gray-900">
+                    {item.pricingLabel}
                   </div>
                 </div>
-              )}
-            </div>
+              </div>
+            )}
+          </div>
 
           {/* Per-source ratings */}
           {item.ratingSources?.length > 0 && (
-            <div className="mt-5 space-y-2 max-w-xs mx-auto">
+            <div className="mt-5 space-y-2 w-full max-w-md">
               {item.ratingSources.map((src, idx) => (
                 <div
                   key={`${src.name}-${idx}`}
-                  className="rounded-lg border border-gray-200 bg-white px-4 py-2.5 text-sm shadow-sm"
+                  className="w-full rounded-lg border border-gray-200 bg-white px-4 py-2.5 text-sm shadow-sm"
                 >
                   <div className="flex items-center w-full gap-3">
-                    {/* Left: source name, takes remaining space */}
+                    {/* Left: source name */}
                     <span className="text-gray-700 truncate flex-1">
                       {src.name}
                     </span>
 
-                    {/* Right: stars + score + count grouped together */}
+                    {/* Right: stars + score + count together */}
                     {src.score != null ? (
                       <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-700">
                         <span className="text-yellow-400 text-base leading-none">
@@ -148,7 +144,7 @@ function ListingCard({ item }) {
         </div>
 
         {/* RIGHT SIDE: video */}
-        <div className="w-11/12 mr-auto">
+        <div className="w-full max-w-md mx-auto lg:max-w-full lg:mx-0">
           {item.videoUrl ? (
             <div className="aspect-video rounded-[24px] overflow-hidden shadow-sm bg-black">
               <iframe
@@ -263,7 +259,7 @@ function ListingCard({ item }) {
         )}
       </div>
 
-      {/* CTA – FULL WIDTH (unchanged) */}
+      {/* CTA – FULL WIDTH */}
       <div className="mt-7 rounded-[24px] border border-gray-200 bg-gray-50 px-5 py-4 sm:px-6 sm:py-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div className="max-w-2xl">
           <h4 className="font-semibold text-gray-900">
@@ -288,23 +284,20 @@ function ListingCard({ item }) {
   );
 }
 
-
 // 👇 THIS is the default export and MUST be a React component
 export default function Home({ pageContent, listings, faqs }) {
-    const pageUrl = "https://facility-management-software.com";
-    const ogImage =
+  const pageUrl = "https://facility-management-software.com";
+  const ogImage =
     "https://facility-management-software.com/assets/facility-management-og.jpg";
-    const twitterImage =
+  const twitterImage =
     "https://facility-management-software.com/assets/facility-management-twitter.jpg";
+
   return (
     <>
-        {/* Tailwind via CDN */}
-      <Script
-        src="https://cdn.tailwindcss.com"
-        strategy="beforeInteractive"
-      />
+      {/* Tailwind via CDN */}
+      <Script src="https://cdn.tailwindcss.com" strategy="beforeInteractive" />
 
-    <Head>
+      <Head>
         {/* Basic SEO */}
         <title>{pageContent.seoTitle}</title>
         <meta name="description" content={pageContent.seoDescription} />
@@ -320,11 +313,6 @@ export default function Home({ pageContent, listings, faqs }) {
         <meta name="robots" content="index, follow" />
         <meta name="language" content="English" />
         <meta name="revisit-after" content="7 days" />
-        {/* viewport (charset is handled by Next) */}
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1.0"
-        />
 
         {/* Open Graph */}
         <meta property="og:title" content={pageContent.seoTitle} />
@@ -372,7 +360,7 @@ export default function Home({ pageContent, listings, faqs }) {
           href="/favicon-16x16.png"
         />
 
-        {/* Fonts (same as your static HTML) */}
+        {/* Fonts */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
           rel="preconnect"
@@ -411,7 +399,7 @@ export default function Home({ pageContent, listings, faqs }) {
           <div className="max-w-4xl mx-auto text-center">
             {pageContent.heroPreHeadline && (
               <div className="inline-flex items-center gap-2 bg-white px-3 sm:px-4 py-2 rounded-2xl border border-gray-200 shadow-sm mb-6 sm:mb-8">
-                <ChartColumn className="w-4 h-4 text-blue-600" />  
+                <ChartColumn className="w-4 h-4 text-blue-600" />
                 <span className="text-xs sm:text-sm font-medium text-gray-600">
                   {pageContent.heroPreHeadline}
                 </span>
@@ -422,19 +410,18 @@ export default function Home({ pageContent, listings, faqs }) {
               <span className="block">{pageContent.heroHeadline}</span>
             </h1>
 
-            {/*<!-- Meta Info -->*/}
-            <div
-              className="flex flex-wrap justify-center items-center gap-2 sm:gap-4 text-xs sm:text-sm text-gray-500 mb-6 sm:mb-8">
+            {/* Meta Info */}
+            <div className="flex flex-wrap justify-center items-center gap-2 sm:gap-4 text-xs sm:text-sm text-gray-500 mb-6 sm:mb-8">
               <div className="flex items-center gap-1 sm:gap-2">
                 <Calendar className="w-3 h-3 sm:w-4 sm:h-4" />
                 <span>Updated July 2025</span>
               </div>
-              <div className="w-1 h-1 bg-gray-400 rounded-full"></div>
+              <div className="w-1 h-1 bg-gray-400 rounded-full" />
               <div className="flex items-center gap-1 sm:gap-2">
                 <Clock className="w-3 h-3 sm:w-4 sm:h-4" />
                 <span>5 min read</span>
               </div>
-              <div className="w-1 h-1 bg-gray-400 rounded-full"></div>
+              <div className="w-1 h-1 bg-gray-400 rounded-full" />
               <div className="flex items-center gap-1 sm:gap-2">
                 <Users className="w-3 h-3 sm:w-4 sm:h-4" />
                 <span>Expert Reviewed</span>
@@ -473,10 +460,13 @@ export default function Home({ pageContent, listings, faqs }) {
               <p className="text-lg sm:text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed px-2">
                 Compare the best facility management software solutions.
               </p>
-                    <p id="software-comparison-description" class="text-base sm:text-lg text-gray-600 mt-4 px-2">
-                    Detailed comparison of leading facility management software platforms with features, pricing, and user
-                    ratings.
-                    </p>
+              <p
+                id="software-comparison-description"
+                className="text-base sm:text-lg text-gray-600 mt-4 px-2"
+              >
+                Detailed comparison of leading facility management software platforms
+                with features, pricing, and user ratings.
+              </p>
             </div>
 
             <div className="space-y-8">
@@ -519,7 +509,7 @@ export default function Home({ pageContent, listings, faqs }) {
       </main>
 
       <footer className="bg-white border-t border-gray-200 py-6 mt-8">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 text-sm text-gray-500 flex justify-between">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 text-sm text-gray-500 flex flex-col sm:flex-row gap-2 sm:gap-0 sm:justify-between">
           <span>
             © {new Date().getFullYear()} Facility Management Software Guide
           </span>
