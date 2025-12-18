@@ -88,7 +88,7 @@ function ListingCard({ item }) {
             </div>
 
             {/* Price pill */}
-            <div className="flex flex-col items-end gap-2">
+            <div className="flex flex-col items-center gap-2">
               {item.pricingLabel && (
                 <div className="inline-flex items-center rounded-full bg-gray-50 px-5 py-2 border border-gray-200 shadow-sm">
                   <div className="text-left">
