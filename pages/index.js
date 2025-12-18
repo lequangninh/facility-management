@@ -89,7 +89,7 @@ function ListingCard({ item }) {
           </div>
 
             {/* Price pill */}
-            <div className="flex flex-col items-center gap-2">
+            <div className="mt-5 flex flex-col items-center gap-2">
               {item.pricingLabel && (
                 <div className="inline-flex items-center rounded-full bg-gray-50 px-5 py-2 border border-gray-200 shadow-sm">
                   <div className="text-left">
@@ -106,7 +106,7 @@ function ListingCard({ item }) {
 
           {/* Per-source ratings */}
           {item.ratingSources?.length > 0 && (
-            <div className="mt-5 space-y-2 max-w-sm mx-auto">
+            <div className="mt-5 space-y-2 max-w-sm mr-auto">
               {item.ratingSources.map((src, idx) => (
             <div
                 key={`${src.name}-${idx}`}
@@ -153,7 +153,7 @@ function ListingCard({ item }) {
         </div>
 
         {/* RIGHT SIDE: video */}
-        <div className="w-11/12 mx-auto">
+        <div className="w-11/12 mr-auto">
           {item.videoUrl ? (
             <div className="aspect-video rounded-[24px] overflow-hidden shadow-sm bg-black">
               <iframe
