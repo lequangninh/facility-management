@@ -146,6 +146,9 @@ function ListingCard({ item }) {
                 <span className="text-xl sm:text-2xl font-bold text-gray-900">
                   {item.pricingLabel}
                 </span>
+                <span className="bg-gray-100 text-gray-600 px-3 py-1 rounded-xl text-xs sm:text-sm font-medium">
+                  / month
+                </span>
               </div>
             )}
 
