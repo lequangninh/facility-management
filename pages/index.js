@@ -529,17 +529,17 @@ export default function Home({ pageContent, listings, faqs }) {
             <div className="flex flex-wrap justify-center items-center gap-2 sm:gap-4 text-xs sm:text-sm text-gray-500 mb-6 sm:mb-8">
               <div className="flex items-center gap-1 sm:gap-2">
                 <Calendar className="w-3 h-3 sm:w-4 sm:h-4" />
-                <span>Updated July 2025</span>
+                <span>{pageContent.metaCalendar}</span>
               </div>
               <div className="w-1 h-1 bg-gray-400 rounded-full" />
               <div className="flex items-center gap-1 sm:gap-2">
                 <Clock className="w-3 h-3 sm:w-4 sm:h-4" />
-                <span>5 min read</span>
+                <span>{pageContent.metaClock}</span>
               </div>
               <div className="w-1 h-1 bg-gray-400 rounded-full" />
               <div className="flex items-center gap-1 sm:gap-2">
                 <Users className="w-3 h-3 sm:w-4 sm:h-4" />
-                <span>Expert Reviewed</span>
+                <span>{pageContent.metaUsers}</span>
               </div>
             </div>
 
