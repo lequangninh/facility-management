@@ -153,7 +153,7 @@ function ListingCard({ item }) {
         </div>
 
         {/* RIGHT SIDE: video */}
-        <div className="max-w-3xl mx-auto">
+        <div className="w-3/4 mx-auto">
           {item.videoUrl ? (
             <div className="aspect-video rounded-[24px] overflow-hidden shadow-sm bg-black">
               <iframe
