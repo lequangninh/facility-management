@@ -33,60 +33,60 @@ function ListingCard({ item }) {
   ];
 
   return (
-    <article className="bg-white border border-gray-200 rounded-[26px] shadow-sm p-6 sm:p-8">
+    <article className="bg-white border border-gray-200 rounded-[26px] shadow-sm p-4 sm:p-6 lg:p-8">
       {/* TOP: INFO + VIDEO */}
-      <div className="grid gap-6 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] items-start">
+      <div className="grid gap-5 sm:gap-6 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] items-start">
         {/* LEFT SIDE: logo, name, price, ratings */}
         <div>
           {/* Header row */}
-          <div className="flex flex-col gap-4">
-            <div className="flex items-start justify-between gap-4">
-              <div className="flex gap-3 sm:gap-4">
-                {item.logoUrl && (
-                  <div className="flex-shrink-0 w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-gray-50 flex items-center justify-center overflow-hidden">
-                    <img
-                      src={item.logoUrl}
-                      alt={item.name}
-                      width={64}
-                      height={64}
-                      className="w-full h-full object-contain"
-                    />
-                  </div>
-                )}
-                <div>
-                  <div className="flex items-center gap-2 flex-wrap">
-                    <h3 className="text-xl sm:text-2xl font-semibold text-gray-900">
-                      {item.name}
-                    </h3>
-                    {item.badgeText && (
-                      <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-yellow-100 text-yellow-800">
-                        ⭐ {item.badgeText}
-                      </span>
-                    )}
-                  </div>
-                  {item.vendorName && (
-                    <p className="text-sm text-gray-500 mt-0.5">
-                      By {item.vendorName}
-                    </p>
-                  )}
-                  {item.categoryTags?.length > 0 && (
-                    <div className="flex flex-wrap gap-1.5 mt-2">
-                      {item.categoryTags.map((tag) => (
-                        <span
-                          key={tag}
-                          className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-700"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
+          <div className="flex flex-col sm:flex-row items-start justify-between gap-4">
+            <div className="flex gap-3 sm:gap-4">
+              {item.logoUrl && (
+                <div className="flex-shrink-0 w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-gray-50 flex items-center justify-center overflow-hidden">
+                  <img
+                    src={item.logoUrl}
+                    alt={item.name}
+                    width={64}
+                    height={64}
+                    className="w-full h-full object-contain"
+                  />
+                </div>
+              )}
+              <div>
+                <div className="flex items-center gap-2 flex-wrap">
+                  <h3 className="text-xl sm:text-2xl font-semibold text-gray-900">
+                    {item.name}
+                  </h3>
+                  {item.badgeText && (
+                    <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-yellow-100 text-yellow-800">
+                      ⭐ {item.badgeText}
+                    </span>
                   )}
                 </div>
+                {item.vendorName && (
+                  <p className="text-sm text-gray-500 mt-0.5">
+                    By {item.vendorName}
+                  </p>
+                )}
+                {item.categoryTags?.length > 0 && (
+                  <div className="flex flex-wrap gap-1.5 mt-2">
+                    {item.categoryTags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-700"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                )}
               </div>
+            </div>
 
-              {/* Price pill */}
-              {item.pricingLabel && (
-                <div className="inline-flex items-center rounded-full bg-gray-50 px-5 py-2 border border-gray-200 shadow-sm self-start">
+            {/* Price pill – below title on mobile, right on desktop */}
+            {item.pricingLabel && (
+              <div className="mt-2 sm:mt-0 sm:self-start">
+                <div className="inline-flex items-center rounded-full bg-gray-50 px-5 py-2 border border-gray-200 shadow-sm">
                   <div className="text-left">
                     <div className="text-[10px] uppercase tracking-wide text-gray-500">
                       Starting from
@@ -96,57 +96,51 @@ function ListingCard({ item }) {
                     </div>
                   </div>
                 </div>
-              )}
-            </div>
-
-            {/* Per-source ratings */}
-            {item.ratingSources?.length > 0 && (
-              <div className="mt-1 space-y-2 max-w-md">
-                {item.ratingSources.map((src, idx) => (
-                  <div
-                    key={`${src.name}-${idx}`}
-                    className="rounded-lg border border-gray-200 bg-white px-4 py-2.5 text-sm shadow-sm"
-                  >
-                    <div className="flex items-center w-full gap-3">
-                      {/* Left: source name */}
-                      <span className="text-gray-700 truncate flex-1">
-                        {src.name}
-                      </span>
-
-                      {/* Right: stars + score + count */}
-                      {src.score != null ? (
-                        <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-700">
-                          <span className="text-yellow-400 text-base leading-none">
-                            ★★★★☆
-                          </span>
-                          <span className="font-medium">
-                            {src.score.toFixed
-                              ? src.score.toFixed(1)
-                              : src.score}
-                          </span>
-                          {src.count != null && (
-                            <span className="text-gray-400">
-                              {src.count.toLocaleString
-                                ? `(${src.count.toLocaleString()})`
-                                : `(${src.count})`}
-                            </span>
-                          )}
-                        </div>
-                      ) : (
-                        <span className="text-gray-400 text-xs sm:text-sm">
-                          No rating
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                ))}
               </div>
             )}
           </div>
+
+          {/* Per-source ratings – full width on mobile */}
+          {item.ratingSources?.length > 0 && (
+            <div className="mt-4 sm:mt-5 space-y-2">
+              {item.ratingSources.map((src, idx) => (
+                <div
+                  key={`${src.name}-${idx}`}
+                  className="flex items-center justify-between w-full rounded-full border border-gray-200 bg-white px-4 py-2.5 text-sm shadow-sm"
+                >
+                  {/* Left: source name */}
+                  <span className="text-gray-700 truncate">{src.name}</span>
+
+                  {/* Right: stars + score + count */}
+                  {src.score != null ? (
+                    <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-700">
+                      <span className="text-yellow-400 text-base leading-none">
+                        ★★★★☆
+                      </span>
+                      <span className="font-medium">
+                        {src.score.toFixed ? src.score.toFixed(1) : src.score}
+                      </span>
+                      {src.count != null && (
+                        <span className="text-gray-400">
+                          {src.count.toLocaleString
+                            ? `(${src.count.toLocaleString()})`
+                            : `(${src.count})`}
+                        </span>
+                      )}
+                    </div>
+                  ) : (
+                    <span className="text-gray-400 text-xs sm:text-sm">
+                      No rating
+                    </span>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
-        {/* RIGHT SIDE: video */}
-        <div className="w-full lg:w-11/12 lg:mr-auto">
+        {/* RIGHT SIDE: video – stacked under ratings on mobile */}
+        <div className="w-full mt-5 lg:mt-0">
           {item.videoUrl ? (
             <div className="aspect-video rounded-[24px] overflow-hidden shadow-sm bg-black">
               <iframe
@@ -165,7 +159,7 @@ function ListingCard({ item }) {
         </div>
       </div>
 
-      {/* TABS + CONTENT – FULL WIDTH */}
+      {/* TABS + CONTENT – FULL WIDTH (unchanged) */}
       <div className="mt-7 border-b border-gray-200">
         <nav className="flex flex-wrap gap-6 text-sm font-medium text-gray-500">
           {tabs.map((tab) => {
@@ -261,7 +255,7 @@ function ListingCard({ item }) {
         )}
       </div>
 
-      {/* CTA – FULL WIDTH */}
+      {/* CTA – FULL WIDTH (unchanged) */}
       <div className="mt-7 rounded-[24px] border border-gray-200 bg-gray-50 px-5 py-4 sm:px-6 sm:py-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div className="max-w-2xl">
           <h4 className="font-semibold text-gray-900">
@@ -285,6 +279,7 @@ function ListingCard({ item }) {
     </article>
   );
 }
+
 
 export default function Home({ pageContent, listings, faqs }) {
   const pageUrl = "https://facility-management-software.com";
