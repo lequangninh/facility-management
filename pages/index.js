@@ -33,7 +33,7 @@ function ListingCard({ item }) {
   ];
 
   return (
-    <article className="bg-white border border-gray-200 rounded-[26px] shadow-sm p-4 sm:p-6 lg:p-8">
+    <article className="bg-white border border-gray-200 rounded-[26px] shadow-sm p-4 sm:p-6 lg:p-8 overflow-hidden">
       {/* TOP: INFO + VIDEO */}
       <div className="grid gap-5 sm:gap-6 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] items-start">
         {/* LEFT SIDE: logo, name, price, ratings */}
@@ -146,22 +146,24 @@ function ListingCard({ item }) {
         </div>
 
         {/* RIGHT SIDE: video – stacked under ratings on mobile */}
-        <div className="w-full mt-5 lg:mt-0">
-          {item.videoUrl ? (
-            <div className="aspect-video rounded-[24px] overflow-hidden shadow-sm bg-black">
-              <iframe
-                src={item.videoUrl}
-                title={`${item.name} video`}
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-                className="w-full h-full"
-              />
-            </div>
-          ) : (
-            <div className="aspect-video rounded-[24px] bg-gray-100 border border-gray-200 flex items-center justify-center text-gray-400 text-sm">
-              No video available
-            </div>
-          )}
+        <div className="mt-5 lg:mt-0">
+          <div className="w-full max-w-full mx-auto">
+            {item.videoUrl ? (
+              <div className="aspect-video w-full max-w-full rounded-[24px] overflow-hidden shadow-sm bg-black">
+                <iframe
+                  src={item.videoUrl}
+                  title={`${item.name} video`}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  className="block w-full h-full max-w-full"
+                />
+              </div>
+            ) : (
+              <div className="aspect-video w-full max-w-full rounded-[24px] bg-gray-100 border border-gray-200 flex items-center justify-center text-gray-400 text-sm">
+                No video available
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
