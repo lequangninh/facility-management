@@ -108,7 +108,7 @@ function ListingCard({ item }) {
               <h3 className="text-2xl sm:text-3xl font-bold text-gray-900">
                 {item.name}
               </h3>
-              <div className="flex flex-wrap gap-2 sm:gap-3 justify-start">
+              <div className="flex flex-wrap gap-2 sm:gap-3 justify-center">
                 {item.badgeText && (
                   <span className="inline-flex items-center gap-1 bg-amber-100 text-amber-800 px-2 py-1 rounded-xl text-xs sm:text-sm font-medium">
                     <Star className="w-3 h-3" />
