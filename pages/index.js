@@ -502,7 +502,7 @@ export default function Home({ pageContent, listings, faqs }) {
               />
             )}
             <span className="font-semibold text-gray-900">
-              Facility Management Software Guide
+              {pageContent.headerline}
             </span>
           </div>
         </div>
