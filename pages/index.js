@@ -2,7 +2,7 @@
 import Head from "next/head";
 import Script from "next/script";
 import { useState } from "react";
-import { getPageContent, getListings, getFaqs } from "../lib/airtable";
+import { getPageContent,getListing_Intro, getListings, getFaqs } from "../lib/airtable";
 import {
   Calendar,
   Clock,
@@ -27,8 +27,9 @@ import {
 } from "lucide-react";
 
 export async function getStaticProps() {
-  const [pageContent, listings, faqs] = await Promise.all([
+  const [pageContent,pageListingIntro, listings, faqs] = await Promise.all([
     getPageContent("Homepage_Main"),
+    getListing_Intro(),
     getListings(),
     getFaqs(),
   ]);
@@ -36,6 +37,7 @@ export async function getStaticProps() {
   return {
     props: {
       pageContent,
+      pageListingIntro,
       listings,
       faqs,
     },
@@ -399,7 +401,7 @@ function ListingCard({ item }) {
 
 
 
-export default function Home({ pageContent, listings, faqs }) {
+export default function Home({ pageContent,pageListingIntro, listings, faqs }) {
   const pageUrl = "https://facility-management-software.com";
   const ogImage =
     "https://facility-management-software.com/assets/facility-management-og.jpg";
@@ -559,10 +561,6 @@ export default function Home({ pageContent, listings, faqs }) {
                   {pageContent.heroButtonText}
                 </a>
               )}
-              <button className="bg-white hover:bg-gray-50 text-gray-900 px-6 sm:px-8 py-3 sm:py-4 rounded-2xl font-medium border border-gray-300 transition-colors shadow-sm hover:shadow-md text-sm sm:text-base inline-flex items-center justify-center gap-2">
-                <Download className="w-4 h-4 sm:w-5 sm:h-5" />
-                Download Guide
-              </button>
             </div>
           </div>
         </section>
@@ -575,17 +573,16 @@ export default function Home({ pageContent, listings, faqs }) {
           <div className="max-w-6xl mx-auto px-4 sm:px-6">
             <div className="text-center mb-12 sm:mb-16">
               <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4 sm:mb-6">
-                Software Comparison
+                {pageListingIntro.headerIntroListing}
               </h2>
               <p className="text-lg sm:text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed px-2">
-                Compare the best facility management software solutions.
+                {pageListingIntro.preheaderIntroListing}
               </p>
               <p
                 id="software-comparison-description"
                 className="text-base sm:text-lg text-gray-600 mt-4 px-2"
               >
-                Detailed comparison of leading facility management software
-                platforms with features, pricing, and user ratings.
+                {pageListingIntro.textIntroListing}
               </p>
             </div>
 
