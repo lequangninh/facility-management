@@ -3,7 +3,23 @@ import Head from "next/head";
 import Script from "next/script";
 import { useState } from "react";
 import { getPageContent, getListings, getFaqs } from "../lib/airtable";
-import { Calendar, Clock, Users, ChartColumn, Download } from "lucide-react";
+import {
+  Calendar,
+  Clock,
+  Users,
+  ChartColumn,
+  Download,
+  Smartphone,
+  Info,
+  Settings,
+  Scale,
+  DollarSign,
+  CheckCircle,
+  XCircle,
+  Check,
+  Rocket,
+  Star
+} from "lucide-react";
 
 export async function getStaticProps() {
   const [pageContent, listings, faqs] = await Promise.all([
@@ -21,105 +37,139 @@ export async function getStaticProps() {
     revalidate: 300, // ISR (optional)
   };
 }
+function RatingStars({ rating }) {
+  if (rating == null) return null;
+
+  const full = Math.floor(rating);
+  const hasHalf = rating % 1 >= 0.5;
+  const empty = 5 - full - (hasHalf ? 1 : 0);
+
+  const stars = [];
+
+  for (let i = 0; i < full; i++) {
+    stars.push(
+      <Check  // using Check just as a filled icon; you can swap to Star if you prefer
+        key={`full-${i}`}
+        className="w-4 h-4 text-amber-400 fill-current"
+      />
+    );
+  }
+
+  if (hasHalf) {
+    stars.push(
+      <Check key="half" className="w-4 h-4 text-amber-400 fill-current" />
+    );
+  }
+
+  for (let i = 0; i < empty; i++) {
+    stars.push(
+      <Check key={`empty-${i}`} className="w-4 h-4 text-gray-300" />
+    );
+  }
+
+  return <div className="flex">{stars}</div>;
+}
 
 function ListingCard({ item }) {
   const [activeTab, setActiveTab] = useState("overview");
 
   const tabs = [
-    { id: "overview", label: "Overview" },
-    { id: "features", label: "Features" },
-    { id: "proscons", label: "Pros & Cons" },
-    { id: "pricing", label: "Pricing" },
+    { id: "overview", label: "Overview", Icon: Info },
+    { id: "features", label: "Features", Icon: Settings },
+    { id: "proscons", label: "Pros & Cons", Icon: Scale },
+    { id: "pricing", label: "Pricing", Icon: DollarSign },
   ];
 
   return (
-    <article className="bg-white border border-gray-200 rounded-[26px] shadow-sm p-4 sm:p-6 lg:p-8 overflow-hidden">
-      {/* TOP: INFO + VIDEO */}
-      <div className="grid gap-5 sm:gap-6 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] items-start">
-        {/* LEFT SIDE: logo, name, price, ratings */}
-        <div>
-          {/* Header row */}
-          <div className="flex flex-col sm:flex-row items-start justify-between gap-4">
-            <div className="flex gap-3 sm:gap-4">
-              {item.logoUrl && (
-                <div className="flex-shrink-0 w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-gray-50 flex items-center justify-center overflow-hidden">
-                  <img
-                    src={item.logoUrl}
-                    alt={item.name}
-                    width={64}
-                    height={64}
-                    className="w-full h-full object-contain"
-                  />
-                </div>
-              )}
-              <div>
-                <div className="flex items-center gap-2 flex-wrap">
-                  <h3 className="text-xl sm:text-2xl font-semibold text-gray-900">
-                    {item.name}
-                  </h3>
-                  {item.badgeText && (
-                    <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-yellow-100 text-yellow-800">
-                      ⭐ {item.badgeText}
-                    </span>
-                  )}
-                </div>
-                {item.vendorName && (
-                  <p className="text-sm text-gray-500 mt-0.5">
-                    By {item.vendorName}
-                  </p>
-                )}
-                {item.categoryTags?.length > 0 && (
-                  <div className="flex flex-wrap gap-1.5 mt-2">
-                    {item.categoryTags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-700"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                )}
+    <article className="bg-white border border-gray-200 rounded-3xl shadow-sm hover:shadow-md transition-shadow p-4 sm:p-6 lg:p-8 overflow-hidden">
+      {/* TOP: Logo + info + video */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 mb-6 sm:mb-8">
+        {/* LEFT: logo, meta, pricing, per-source ratings */}
+        <div className="flex flex-col sm:flex-row gap-4 sm:gap-6">
+          {/* Logo */}
+          {item.logoUrl && (
+            <div className="flex-shrink-0 mx-auto sm:mx-0">
+              <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gray-50 rounded-2xl border border-gray-200 p-3 sm:p-4">
+                <img
+                  src={item.logoUrl}
+                  alt={item.name}
+                  width={80}
+                  height={80}
+                  className="w-full h-full object-contain"
+                />
               </div>
             </div>
+          )}
 
-            {/* Price pill – below title on mobile, right on desktop */}
-            {item.pricingLabel && (
-              <div className="mt-2 sm:mt-0 sm:self-start">
-                <div className="inline-flex items-center rounded-full bg-gray-50 px-5 py-2 border border-gray-200 shadow-sm">
-                  <div className="text-left">
-                    <div className="text-[10px] uppercase tracking-wide text-gray-500">
-                      Starting from
-                    </div>
-                    <div className="text-base sm:text-lg font-semibold text-gray-900">
-                      {item.pricingLabel}
-                    </div>
-                  </div>
-                </div>
+          {/* Name, badge, vendor, pricing, ratings */}
+          <div className="flex-1 text-center sm:text-left">
+            {/* Name + badge */}
+            <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 mb-2">
+              <h3 className="text-2xl sm:text-3xl font-bold text-gray-900">
+                {item.name}
+              </h3>
+
+              {item.badgeText && (
+                <span className="inline-flex items-center gap-1 bg-amber-100 text-amber-800 px-2 py-1 rounded-xl text-xs sm:text-sm font-medium">
+                  <Star className="w-3 h-3" />
+                  {item.badgeText}
+                </span>
+              )}
+            </div>
+
+            {/* Vendor / categories */}
+            {item.vendorName && (
+              <p className="text-sm sm:text-base text-gray-600 mb-2">
+                By <span className="font-medium">{item.vendorName}</span>
+              </p>
+            )}
+
+            {item.categoryTags?.length > 0 && (
+              <div className="flex flex-wrap justify-center sm:justify-start gap-2 mb-4">
+                {item.categoryTags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="inline-flex items-center bg-gray-100 text-gray-700 px-3 py-1 rounded-xl text-xs sm:text-sm font-medium"
+                  >
+                    {tag}
+                  </span>
+                ))}
               </div>
             )}
-          </div>
 
-          {/* Per-source ratings – mobile friendly */}
-          {item.ratingSources?.length > 0 && (
-            <div className="mt-4 sm:mt-5 space-y-2">
-              {item.ratingSources.map((src, idx) => (
-                <div
-                  key={`${src.name}-${idx}`}
-                  className="w-full rounded-full border border-gray-200 bg-white px-4 py-2.5 text-sm shadow-sm"
-                >
-                  {/* On mobile: column (name on top, rating below)
-                      From sm: row (name left, rating right) */}
-                  <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between w-full">
-                    {/* Source name */}
-                    <span className="text-gray-700 truncate sm:max-w-[40%]">
-                      {src.name}
-                    </span>
+            {/* Pricing pill – “Starting from 26 €/month” style */}
+            {item.pricingLabel && (
+              <div className="flex items-baseline justify-center sm:justify-start gap-2 mb-4 sm:mb-6">
+                <span className="bg-gray-100 text-gray-600 px-3 py-1 rounded-xl text-xs sm:text-sm font-medium">
+                  Starting from
+                </span>
+                <span className="text-xl sm:text-2xl font-bold text-gray-900">
+                  {item.pricingLabel}
+                </span>
+              </div>
+            )}
 
-                    {/* Stars + score + count */}
+            {/* Per-source ratings – matches generator design */}
+            {item.ratingSources?.length > 0 && (
+              <div className="space-y-2 sm:space-y-3">
+                {item.ratingSources.map((src, idx) => (
+                  <div
+                    key={`${src.name || "src"}-${idx}`}
+                    className="flex justify-between items-center p-2 sm:p-3 bg-gray-50 rounded-2xl border border-gray-200"
+                  >
+                    {/* Left: platform name */}
+                    <div className="flex items-center gap-1 sm:gap-2">
+                      <Smartphone className="w-3 h-3 sm:w-4 sm:h-4 text-gray-600" />
+                      <span className="text-xs sm:text-sm font-medium text-gray-700">
+                        {src.name}
+                      </span>
+                    </div>
+
+                    {/* Right: stars + numeric rating */}
                     {src.score != null ? (
-                      <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-700 sm:justify-end">
-                        <span className="text-yellow-400 text-base leading-none">
+                      <div className="flex items-center gap-1 sm:gap-2 text-xs sm:text-sm text-gray-700">
+                        {/* You can swap this <span> for <RatingStars rating={src.score} /> if you want icon stars */}
+                        <span className="text-amber-400 text-base leading-none">
                           ★★★★☆
                         </span>
                         <span className="font-medium">
@@ -127,9 +177,11 @@ function ListingCard({ item }) {
                         </span>
                         {src.count != null && (
                           <span className="text-gray-400">
+                            (
                             {src.count.toLocaleString
-                              ? `(${src.count.toLocaleString()})`
-                              : `(${src.count})`}
+                              ? src.count.toLocaleString()
+                              : src.count}
+                            )
                           </span>
                         )}
                       </div>
@@ -139,154 +191,203 @@ function ListingCard({ item }) {
                       </span>
                     )}
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* RIGHT: responsive video – same idea as generator, fixed for Android */}
+        <div className="relative order-first lg:order-last w-full">
+          {item.videoUrl ? (
+            <div className="aspect-video bg-gray-100 rounded-2xl overflow-hidden border border-gray-200 w-full max-w-full">
+              <iframe
+                src={item.videoUrl}
+                title={`${item.name} video`}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                className="block w-full h-full max-w-full"
+              />
+            </div>
+          ) : (
+            <div className="aspect-video w-full max-w-full rounded-2xl bg-gray-100 border border-gray-200 flex items-center justify-center text-gray-400 text-sm">
+              No video available
             </div>
           )}
         </div>
-
-        {/* RIGHT SIDE: video – stacked under ratings on mobile */}
-        <div className="mt-5 lg:mt-0">
-          <div className="w-full max-w-full mx-auto">
-            {item.videoUrl ? (
-              <div className="aspect-video w-full max-w-full rounded-[24px] overflow-hidden shadow-sm bg-black">
-                <iframe
-                  src={item.videoUrl}
-                  title={`${item.name} video`}
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                  className="block w-full h-full max-w-full"
-                />
-              </div>
-            ) : (
-              <div className="aspect-video w-full max-w-full rounded-[24px] bg-gray-100 border border-gray-200 flex items-center justify-center text-gray-400 text-sm">
-                No video available
-              </div>
-            )}
-          </div>
-        </div>
       </div>
 
-      {/* TABS + CONTENT – FULL WIDTH (unchanged) */}
-      <div className="mt-7 border-b border-gray-200">
-        <nav className="flex flex-wrap gap-6 text-sm font-medium text-gray-500">
-          {tabs.map((tab) => {
-            const active = activeTab === tab.id;
+      {/* TABS (same React logic, styling inspired by your generator) */}
+      <div className="mb-6 sm:mb-8">
+        {/* Desktop: horizontal tabs with bottom border */}
+        <div className="hidden sm:flex border-b border-gray-200 mb-4 sm:mb-6">
+          {tabs.map(({ id, label, Icon }) => {
+            const active = activeTab === id;
             return (
               <button
-                key={tab.id}
+                key={id}
                 type="button"
-                onClick={() => setActiveTab(tab.id)}
-                className={`pb-3 -mb-px border-b-2 transition-colors flex items-center gap-1 ${
+                onClick={() => setActiveTab(id)}
+                className={`tab-button px-6 py-3 text-sm font-medium flex items-center gap-2 border-b-2 rounded-t-2xl transition-colors ${
                   active
-                    ? "border-blue-600 text-blue-600"
-                    : "border-transparent hover:text-gray-700"
+                    ? "text-blue-600 border-blue-600"
+                    : "text-gray-600 border-transparent hover:text-gray-800"
                 }`}
               >
-                {tab.label}
+                <Icon className="w-4 h-4" />
+                {label}
               </button>
             );
           })}
-        </nav>
-      </div>
-
-      <div className="mt-4 space-y-3 text-sm sm:text-base text-gray-700 leading-relaxed">
-        {activeTab === "overview" && (
-          <>
-            {item.description && (
-              <p>
-                <span className="font-semibold">{item.name}</span>{" "}
-                {item.description}
-              </p>
-            )}
-            {item.availableFor?.length > 0 && (
-              <p className="mt-2">
-                <span className="font-semibold">Available for: </span>
-                {item.availableFor.join(", ")}
-              </p>
-            )}
-          </>
-        )}
-
-        {activeTab === "features" && item.features.length > 0 && (
-          <ul className="list-disc pl-5 space-y-1">
-            {item.features.map((feature, idx) => (
-              <li key={idx}>{feature}</li>
-            ))}
-          </ul>
-        )}
-
-        {activeTab === "proscons" && (
-          <div className="grid gap-4 md:grid-cols-2">
-            {item.pros.length > 0 && (
-              <div>
-                <h4 className="font-semibold text-green-700 mb-1">Pros</h4>
-                <ul className="space-y-1">
-                  {item.pros.map((p, idx) => (
-                    <li key={idx} className="flex gap-2">
-                      <span className="mt-0.5 text-green-500">✓</span>
-                      <span>{p}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-            {item.cons.length > 0 && (
-              <div>
-                <h4 className="font-semibold text-red-700 mb-1">Cons</h4>
-                <ul className="space-y-1">
-                  {item.cons.map((c, idx) => (
-                    <li key={idx} className="flex gap-2">
-                      <span className="mt-0.5 text-red-500">✕</span>
-                      <span>{c}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-          </div>
-        )}
-
-        {activeTab === "pricing" && (
-          <div>
-            {item.pricingLabel && (
-              <p className="font-semibold text-gray-900">
-                {item.pricingLabel}
-              </p>
-            )}
-            {item.ctaUrl && (
-              <p className="mt-2 text-gray-600">
-                Contact vendor for detailed pricing and plans.
-              </p>
-            )}
-          </div>
-        )}
-      </div>
-
-      {/* CTA – FULL WIDTH (unchanged) */}
-      <div className="mt-7 rounded-[24px] border border-gray-200 bg-gray-50 px-5 py-4 sm:px-6 sm:py-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-        <div className="max-w-2xl">
-          <h4 className="font-semibold text-gray-900">
-            {item.ctaSectionTitle}
-          </h4>
-          <p className="text-sm text-gray-600 mt-1 leading-relaxed">
-            {item.ctaSectionText}
-          </p>
         </div>
-        {item.ctaUrl && (
-          <a
-            href={item.ctaUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center px-5 py-2.5 rounded-xl bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 whitespace-nowrap"
-          >
-            {item.ctaButtonText}
-          </a>
-        )}
+
+        {/* Mobile: 2x2 grid of pill tabs */}
+        <div className="block sm:hidden mb-4">
+          <div className="grid grid-cols-2 gap-2">
+            {tabs.map(({ id, label, Icon }) => {
+              const active = activeTab === id;
+              return (
+                <button
+                  key={id}
+                  type="button"
+                  onClick={() => setActiveTab(id)}
+                  className={`tab-button px-4 py-3 text-sm font-medium text-center rounded-2xl border transition-colors flex items-center justify-center gap-2 ${
+                    active
+                      ? "text-blue-600 bg-blue-50 border-blue-200"
+                      : "text-gray-600 bg-gray-50 border-gray-200"
+                  }`}
+                >
+                  <Icon className="w-4 h-4" />
+                  {label}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* TAB PANELS */}
+        <div className="tab-content mt-2 space-y-3 text-sm sm:text-base text-gray-700 leading-relaxed">
+          {activeTab === "overview" && (
+            <>
+              {item.description && (
+                <p className="mb-4">
+                  <strong className="text-gray-900">{item.name}</strong>{" "}
+                  {item.description}
+                </p>
+              )}
+              {item.availableFor?.length > 0 && (
+                <p>
+                  <strong className="text-gray-900">Available for: </strong>
+                  {item.availableFor.join(", ")}
+                </p>
+              )}
+            </>
+          )}
+
+          {activeTab === "features" && item.features?.length > 0 && (
+            <ul className="space-y-2">
+              {item.features.map((feature, idx) => (
+                <li
+                  key={idx}
+                  className="flex items-center gap-3 text-gray-700"
+                >
+                  <Check className="w-4 h-4 text-green-500 flex-shrink-0" />
+                  {feature}
+                </li>
+              ))}
+            </ul>
+          )}
+
+          {activeTab === "proscons" && (
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+              {item.pros?.length > 0 && (
+                <div className="p-3 sm:p-4 bg-green-50 rounded-2xl border border-green-200">
+                  <h4 className="text-base sm:text-lg font-semibold text-green-800 mb-3 flex items-center gap-2">
+                    <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5" />
+                    Advantages
+                  </h4>
+                  <ul className="space-y-2">
+                    {item.pros.map((p, idx) => (
+                      <li
+                        key={idx}
+                        className="text-sm sm:text-base text-green-700"
+                      >
+                        {p}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {item.cons?.length > 0 && (
+                <div className="p-3 sm:p-4 bg-red-50 rounded-2xl border border-red-200">
+                  <h4 className="text-base sm:text-lg font-semibold text-red-800 mb-3 flex items-center gap-2">
+                    <XCircle className="w-4 h-4 sm:w-5 sm:h-5" />
+                    Disadvantages
+                  </h4>
+                  <ul className="space-y-2">
+                    {item.cons.map((c, idx) => (
+                      <li
+                        key={idx}
+                        className="text-sm sm:text-base text-red-700"
+                      >
+                        {c}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+          )}
+
+          {activeTab === "pricing" && (
+            <div>
+              {item.pricingLabel && (
+                <p className="font-semibold text-gray-900 mb-2">
+                  {item.pricingLabel}
+                </p>
+              )}
+              {item.ctaUrl && (
+                <p className="text-gray-600">
+                  Contact the vendor for detailed pricing and plans.
+                </p>
+              )}
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* CTA – like generator design */}
+      <div className="bg-gray-50 rounded-2xl p-4 sm:p-6 lg:p-8 border border-gray-200">
+        <div className="flex flex-col lg:flex-row justify-between items-center gap-4 sm:gap-6">
+          <div className="text-center lg:text-left max-w-2xl">
+            <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-2">
+              {item.ctaSectionTitle ||
+                "Ready to Transform Your Facility Management?"}
+            </h3>
+            <p className="text-sm sm:text-base text-gray-600">
+              {item.ctaSectionText ||
+                `Join thousands of companies already using ${item.name} to streamline their operations and boost efficiency.`}
+            </p>
+          </div>
+
+          {item.ctaUrl && (
+            <a
+              href={item.ctaUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-blue-600 hover:bg-blue-700 text-white px-4 sm:px-6 py-3 rounded-2xl font-medium transition-colors shadow-sm hover:shadow-md flex items-center justify-center gap-2 text-sm sm:text-base whitespace-nowrap"
+            >
+              <Rocket className="w-4 h-4" />
+              {item.ctaButtonText || "Get Started"}
+            </a>
+          )}
+        </div>
       </div>
     </article>
   );
 }
+
 
 
 export default function Home({ pageContent, listings, faqs }) {
@@ -297,7 +398,7 @@ export default function Home({ pageContent, listings, faqs }) {
     "https://facility-management-software.com/assets/facility-management-twitter.jpg";
 
   return (
-    <>
+    <div className="min-h-screen bg-gray-50 overflow-x-hidden">
       {/* Tailwind via CDN */}
       <Script src="https://cdn.tailwindcss.com" strategy="beforeInteractive" />
 
@@ -524,6 +625,6 @@ export default function Home({ pageContent, listings, faqs }) {
           <span>Powered by Airtable CMS</span>
         </div>
       </footer>
-    </>
+    </div>
   );
 }
