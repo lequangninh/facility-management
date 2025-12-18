@@ -108,13 +108,14 @@ function ListingCard({ item }) {
               <h3 className="text-2xl sm:text-3xl font-bold text-gray-900">
                 {item.name}
               </h3>
-
-              {item.badgeText && (
-                <span className="inline-flex items-center gap-1 bg-amber-100 text-amber-800 px-2 py-1 rounded-xl text-xs sm:text-sm font-medium">
-                  <Star className="w-3 h-3" />
-                  {item.badgeText}
-                </span>
-              )}
+              <div className="flex flex-wrap gap-2 sm:gap-3 justify-start">
+                {item.badgeText && (
+                  <span className="inline-flex items-center gap-1 bg-amber-100 text-amber-800 px-2 py-1 rounded-xl text-xs sm:text-sm font-medium">
+                    <Star className="w-3 h-3" />
+                    {item.badgeText}
+                  </span>
+                )}
+              </div>
             </div>
 
             {/* Vendor / categories */}
