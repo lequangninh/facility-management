@@ -374,7 +374,7 @@ function ListingCard({ item }) {
               )}
               {item.ctaUrl && (
                 <p className="text-gray-600">
-                  Contact the vendor for detailed pricing and plans.
+                  {item.pricingAdd}
                 </p>
               )}
             </div>
