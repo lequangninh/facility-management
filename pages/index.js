@@ -373,12 +373,10 @@ function ListingCard({ item }) {
         <div className="flex flex-col lg:flex-row justify-between items-center gap-4 sm:gap-6">
           <div className="text-center lg:text-left max-w-2xl">
             <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-2">
-              {item.ctaSectionTitle ||
-                "Ready to Transform Your Facility Management?"}
+              {item.ctaSectionTitle }
             </h3>
             <p className="text-sm sm:text-base text-gray-600">
-              {item.ctaSectionText ||
-                `Join thousands of companies already using ${item.name} to streamline their operations and boost efficiency.`}
+              {item.ctaSectionText }
             </p>
           </div>
 
@@ -634,7 +632,7 @@ export default function Home({ pageContent,pageListingIntro, listings, faqs }) {
                   <Building2 className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
                 </div>
                 <span className="text-lg sm:text-xl font-semibold">
-                  Facility Management Software Guide
+                  {pageContent.headerline}
                 </span>
               </div>
 
@@ -679,7 +677,7 @@ export default function Home({ pageContent,pageListingIntro, listings, faqs }) {
                 rel="noopener noreferrer"
                 className="text-base sm:text-lg font-semibold text-gray-200 hover:text-white transition-colors"
               >
-                Link 1
+                {/* Link 1*/}
               </a>
             </div>
 
@@ -690,7 +688,7 @@ export default function Home({ pageContent,pageListingIntro, listings, faqs }) {
                 rel="noopener noreferrer"
                 className="text-base sm:text-lg font-semibold text-gray-200 hover:text-white transition-colors"
               >
-                Link 2
+                {/* Link 2*/}
               </a>
             </div>
 
@@ -701,7 +699,7 @@ export default function Home({ pageContent,pageListingIntro, listings, faqs }) {
                 rel="noopener noreferrer"
                 className="text-base sm:text-lg font-semibold text-gray-200 hover:text-white transition-colors"
               >
-                Link 3
+                {/* Link 3*/}
               </a>
             </div>
           </div>
@@ -710,7 +708,7 @@ export default function Home({ pageContent,pageListingIntro, listings, faqs }) {
           <div className="border-t border-gray-800 pt-6 sm:pt-8">
             <div className="flex flex-col sm:flex-row justify-between items-center gap-3 sm:gap-4">
               <p className="text-gray-400 text-xs sm:text-sm text-center sm:text-left">
-                © {new Date().getFullYear()} Facility Management Software Guide. All rights reserved.
+                © {new Date().getFullYear()} {pageContent.headerline}. All rights reserved.
               </p>
 
               <div className="flex flex-wrap gap-4 sm:gap-6 text-xs sm:text-sm justify-center sm:justify-end">
