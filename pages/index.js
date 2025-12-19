@@ -87,6 +87,8 @@ function ListingCard({ item }) {
     { id: "pricing", label: "Pricing", Icon: DollarSign },
   ];
 
+  const hasNumericPrice = typeof item.pricingLabel === "string" && /\d/.test(item.pricingLabel);
+
   return (
     <article className="bg-white border border-gray-200 rounded-3xl shadow-sm hover:shadow-md transition-shadow p-4 sm:p-6 lg:p-8 overflow-hidden">
       {/* TOP: Logo + info + video */}
@@ -144,21 +146,7 @@ function ListingCard({ item }) {
                 ))}
               </div>
             )}
-
-            {/* Pricing pill – “Starting from 26 €/month” style */}
-            {item.pricingLabel && (
-              <div className="flex items-baseline justify-center sm:justify-start gap-2 mb-4 sm:mb-6">
-                <span className="bg-gray-100 text-gray-600 px-3 py-1 rounded-xl text-xs sm:text-sm font-medium">
-                  Starting from
-                </span>
-                <span className="text-xl sm:text-2xl font-bold text-gray-900">
-                  {item.pricingLabel}
-                </span>
-                <span className="bg-gray-100 text-gray-600 px-3 py-1 rounded-xl text-xs sm:text-sm font-medium">
-                  / month
-                </span>
-              </div>
-            )}
+          
 
             {/* Per-source ratings – matches generator design */}
             {item.ratingSources?.length > 0 && (
