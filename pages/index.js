@@ -2,7 +2,7 @@
 import Head from "next/head";
 import Script from "next/script";
 import { useState } from "react";
-import { getPageContent,getListing_Intro, getListings, getFaqs } from "../lib/airtable";
+import { getPageContent,getListing_Intro, getListings, getFaqs,getFacilityTypes } from "../lib/airtable";
 import {
   Calendar,
   Clock,
@@ -23,15 +23,18 @@ import {
   Twitter,
   Linkedin,
   Facebook,
-  Youtube
+  Youtube,
+  Minus,
+  Plus
 } from "lucide-react";
 
 export async function getStaticProps() {
-  const [pageContent,pageListingIntro, listings, faqs] = await Promise.all([
+  const [pageContent,pageListingIntro, listings, faqs,facilityTypes] = await Promise.all([
     getPageContent("Homepage_Main"),
     getListing_Intro(),
     getListings(),
     getFaqs(),
+    getFacilityTypes(),
   ]);
 
   return {
@@ -40,6 +43,7 @@ export async function getStaticProps() {
       pageListingIntro,
       listings,
       faqs,
+      facilityTypes
     },
     revalidate: 300, // ISR (optional)
   };
@@ -411,9 +415,79 @@ function ListingCard({ item }) {
   );
 }
 
+function FacilityTypesAccordion({ items }) {
+  const firstOpen =
+    items.find((t) => t.defaultOpen)?.id || (items[0] && items[0].id) || null;
+  const [openId, setOpenId] = useState(firstOpen);
 
+  return (
+    <div className="space-y-3 sm:space-y-4">
+      {items.map((item, index) => {
+        const isOpen = openId === item.id;
 
-export default function Home({ pageContent,pageListingIntro, listings, faqs }) {
+        return (
+          <div
+            key={item.id}
+            className={`bg-white border rounded-2xl shadow-sm transition-all duration-200 ${
+              isOpen ? "border-blue-200 shadow-md" : "border-gray-200"
+            }`}
+          >
+            {/* Header */}
+            <button
+              type="button"
+              onClick={() => setOpenId(isOpen ? null : item.id)}
+              className="w-full flex items-center justify-between px-4 sm:px-6 py-3 sm:py-4 text-left"
+            >
+              <span className="text-sm sm:text-base font-semibold text-gray-900">
+                {item.shortLabel || `${index + 1}. ${item.title}`}
+              </span>
+              <span className="ml-4 flex items-center justify-center w-8 h-8 rounded-full bg-gray-50 border border-gray-200">
+                {isOpen ? (
+                  <Minus className="w-4 h-4 text-gray-600" />
+                ) : (
+                  <Plus className="w-4 h-4 text-gray-600" />
+                )}
+              </span>
+            </button>
+
+            {/* Body */}
+            <div
+              className={`px-4 sm:px-6 pb-4 sm:pb-5 transition-all duration-200 overflow-hidden ${
+                isOpen ? "max-h-[400px] opacity-100" : "max-h-0 opacity-0"
+              }`}
+            >
+              {isOpen && (
+                <>
+                  {item.description && (
+                    <p className="text-sm sm:text-base text-gray-600 mb-3 sm:mb-4 leading-relaxed">
+                      {item.description}
+                    </p>
+                  )}
+
+                  {item.bullets && item.bullets.length > 0 && (
+                    <ul className="space-y-1.5 sm:space-y-2">
+                      {item.bullets.map((bullet, idx) => (
+                        <li
+                          key={idx}
+                          className="flex items-start gap-2 text-sm sm:text-base text-gray-700"
+                        >
+                          <Check className="w-4 h-4 mt-0.5 text-emerald-500 flex-shrink-0" />
+                          <span>{bullet}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </>
+              )}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+export default function Home({ pageContent,pageListingIntro, listings, faqs,facilityTypes }) {
   const pageUrl = "https://facility-management-software.com";
   const ogImage =
     "https://facility-management-software.com/assets/facility-management-og.jpg";
@@ -605,6 +679,26 @@ export default function Home({ pageContent,pageListingIntro, listings, faqs }) {
             </div>
           </div>
         </section>
+
+        {/* ---- 5 Types of Facility Management Software (Accordion) ---- */}
+        {facilityTypes && facilityTypes.length > 0 && (
+          <section className="bg-gray-50 py-12 sm:py-16 lg:py-20">
+            <div className="max-w-6xl mx-auto px-4 sm:px-6">
+              <div className="text-center mb-10 sm:mb-12">
+                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
+                  5 Types of Facility Management Software Explained
+                </h2>
+                <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                  There are different types of facility management software – CAFM, CMMS, ERP, EAM,
+                  and IWMS. Each system focuses on specific processes, with some overlap in
+                  functionality.
+                </p>
+              </div>
+
+              <FacilityTypesAccordion items={facilityTypes} />
+            </div>
+          </section>
+        )}
 
         {/* FAQ */}
         {faqs.length > 0 && (
