@@ -687,7 +687,8 @@ export default function Home({ pageContent,pageListingIntro, listings, faqs,faci
           id="types-intro"
           className="bg-gray-50 py-12 sm:py-16 lg:py-20"
         >
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+          <div className="text-center mb-10 sm:mb-12">
             {typesIntro.headerTypesIntro && (
               <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
                 {typesIntro.headerTypesIntro}
@@ -710,6 +711,7 @@ export default function Home({ pageContent,pageListingIntro, listings, faqs,faci
           {/* If you already have the accordion for CAFM / CMMS / ...,
               you can render it right under this comment. */}
               <FacilityTypesAccordion items={facilityTypes} />
+          </div>
         </section>
 
         {/* FAQ */}
