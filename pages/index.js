@@ -82,7 +82,7 @@ function ListingCard({ item }) {
 
   const tabs = [
     { id: "overview", label: "Overview", Icon: Info },
-    { id: "features", label: "Features", Icon: Settings },
+    { id: "Merkmale", label: "Merkmale", Icon: Settings },
     { id: "proscons", label: "Pros & Cons", Icon: Scale },
     { id: "pricing", label: "Pricing", Icon: DollarSign },
   ];
@@ -153,13 +153,13 @@ function ListingCard({ item }) {
                 // CASE 2: label has a number → full "Starting from XX / month"
                 <div className="flex items-baseline justify-center sm:justify-start gap-2 mb-4 sm:mb-6">
                   <span className="bg-gray-100 text-gray-600 px-3 py-1 rounded-xl text-xs sm:text-sm font-medium">
-                    Starting from
+                    Ausgehend von
                   </span>
                   <span className="text-xl sm:text-2xl font-bold text-gray-900">
                     {item.pricingLabel}
                   </span>
                   <span className="bg-gray-100 text-gray-600 px-3 py-1 rounded-xl text-xs sm:text-sm font-medium">
-                    / month
+                    / Monat
                   </span>
                 </div>
               ) : (
@@ -212,7 +212,7 @@ function ListingCard({ item }) {
                       </div>
                     ) : (
                       <span className="text-gray-400 text-xs sm:text-sm">
-                        No rating
+                        Keine Bewertung
                       </span>
                     )}
                   </div>
@@ -236,7 +236,7 @@ function ListingCard({ item }) {
             </div>
           ) : (
             <div className="aspect-video w-full max-w-full rounded-2xl bg-gray-100 border border-gray-200 flex items-center justify-center text-gray-400 text-sm">
-              No video available
+              Kein Video verfügbar
             </div>
           )}
         </div>
@@ -302,14 +302,14 @@ function ListingCard({ item }) {
               )}
               {item.availableFor?.length > 0 && (
                 <p>
-                  <strong className="text-gray-900">Available for: </strong>
+                  <strong className="text-gray-900">Verfügbar für: </strong>
                   {item.availableFor.join(", ")}
                 </p>
               )}
             </>
           )}
 
-          {activeTab === "features" && item.features?.length > 0 && (
+          {activeTab === "Merkmale" && item.features?.length > 0 && (
             <ul className="space-y-2">
               {item.features.map((feature, idx) => (
                 <li
@@ -329,7 +329,7 @@ function ListingCard({ item }) {
                 <div className="p-3 sm:p-4 bg-green-50 rounded-2xl border border-green-200">
                   <h4 className="text-base sm:text-lg font-semibold text-green-800 mb-3 flex items-center gap-2">
                     <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5" />
-                    Advantages
+                    Vorteile
                   </h4>
                   <ul className="space-y-2">
                     {item.pros.map((p, idx) => (
@@ -348,7 +348,7 @@ function ListingCard({ item }) {
                 <div className="p-3 sm:p-4 bg-red-50 rounded-2xl border border-red-200">
                   <h4 className="text-base sm:text-lg font-semibold text-red-800 mb-3 flex items-center gap-2">
                     <XCircle className="w-4 h-4 sm:w-5 sm:h-5" />
-                    Disadvantages
+                    Nachteile
                   </h4>
                   <ul className="space-y-2">
                     {item.cons.map((c, idx) => (
