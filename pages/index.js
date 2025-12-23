@@ -2,7 +2,7 @@
 import Head from "next/head";
 import Script from "next/script";
 import { useState } from "react";
-import { getPageContent,getListing_Intro, getListings, getFaqs,getFacilityTypes } from "../lib/airtable";
+import { getPageContent,getListing_Intro, getListings, getFaqs,getFacilityTypes,getTypesIntro } from "../lib/airtable";
 import {
   Calendar,
   Clock,
@@ -29,12 +29,13 @@ import {
 } from "lucide-react";
 
 export async function getStaticProps() {
-  const [pageContent,pageListingIntro, listings, faqs,facilityTypes] = await Promise.all([
+  const [pageContent,pageListingIntro, listings, faqs,facilityTypes,typesIntro ] = await Promise.all([
     getPageContent("Homepage_Main"),
     getListing_Intro(),
     getListings(),
     getFaqs(),
     getFacilityTypes(),
+    getTypesIntro(),
   ]);
 
   return {
@@ -43,7 +44,8 @@ export async function getStaticProps() {
       pageListingIntro,
       listings,
       faqs,
-      facilityTypes
+      facilityTypes,
+      typesIntro 
     },
     revalidate: 300, // ISR (optional)
   };
@@ -487,7 +489,7 @@ function FacilityTypesAccordion({ items }) {
   );
 }
 
-export default function Home({ pageContent,pageListingIntro, listings, faqs,facilityTypes }) {
+export default function Home({ pageContent,pageListingIntro, listings, faqs,facilityTypes,typesIntro  }) {
   const pageUrl = "https://facility-management-software.com";
   const ogImage =
     "https://facility-management-software.com/assets/facility-management-og.jpg";
@@ -680,25 +682,35 @@ export default function Home({ pageContent,pageListingIntro, listings, faqs,faci
           </div>
         </section>
 
-        {/* ---- 5 Types of Facility Management Software (Accordion) ---- */}
-        {facilityTypes && facilityTypes.length > 0 && (
-          <section className="bg-gray-50 py-12 sm:py-16 lg:py-20">
-            <div className="max-w-6xl mx-auto px-4 sm:px-6">
-              <div className="text-center mb-10 sm:mb-12">
-                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
-                  5 Types of Facility Management Software Explained
-                </h2>
-                <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-                  There are different types of facility management software – CAFM, CMMS, ERP, EAM,
-                  and IWMS. Each system focuses on specific processes, with some overlap in
-                  functionality.
-                </p>
-              </div>
+        {/* TYPES INTRO SECTION */}
+        <section
+          id="types-intro"
+          className="bg-gray-50 py-12 sm:py-16 lg:py-20"
+        >
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center">
+            {typesIntro.headerTypesIntro && (
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
+                {typesIntro.headerTypesIntro}
+              </h2>
+            )}
 
+            {typesIntro.preheaderTypesIntro && (
+              <p className="text-base sm:text-lg text-gray-600 mb-3 leading-relaxed">
+                {typesIntro.preheaderTypesIntro}
+              </p>
+            )}
+
+            {typesIntro.textTypesIntro && (
+              <p className="text-sm sm:text-base text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                {typesIntro.textTypesIntro}
+              </p>
+            )}
+          </div>
+
+          {/* If you already have the accordion for CAFM / CMMS / ...,
+              you can render it right under this comment. */}
               <FacilityTypesAccordion items={facilityTypes} />
-            </div>
-          </section>
-        )}
+        </section>
 
         {/* FAQ */}
         {faqs.length > 0 && (
