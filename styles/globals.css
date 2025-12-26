@@ -1,26 +1,26 @@
 /* Read more animation for hero description */
-    .readmore-container {
-      display: inline;
-    }
+      .readmore-container {
+        display: inline;
+      }
 
-    .readmore-more {
-      display: inline-block;
-      max-height: 0;
-      opacity: 0;
-      transform: translateY(6px);
-      transition: max-height 300ms ease, opacity 250ms ease, transform 250ms ease;
-    }
+      .readmore-more {
+        display: inline-block;
+        max-height: 0;
+        opacity: 0;
+        transform: translateY(6px);
+        transition: max-height 300ms ease, opacity 250ms ease, transform 250ms ease;
+      }
 
-    .readmore-container.expanded .readmore-more {
-      max-height: 500px;
-      opacity: 1;
-      transform: translateY(0);
-    }
+      .readmore-container.expanded .readmore-more {
+        max-height: 500px;
+        opacity: 1;
+        transform: translateY(0);
+      }
 
-    .readmore-btn {
-      position: relative;
-    }
-
+      .readmore-btn {
+        position: relative;
+      }
+      
     /* Smooth accordion animations */
     .accordion-body {
       max-height: 0;

@@ -489,7 +489,9 @@ function FacilityTypesAccordion({ items }) {
   );
 }
 
+
 export default function Home({ pageContent,pageListingIntro, listings, faqs,facilityTypes,typesIntro  }) {
+  const [isHeroExpanded, setIsHeroExpanded] = useState(false);
   const pageUrl = "https://facility-management-software.com";
   const ogImage =
     "https://facility-management-software.com/assets/facility-management-og.jpg";
@@ -634,15 +636,31 @@ export default function Home({ pageContent,pageListingIntro, listings, faqs,faci
             </div>
 
             {pageContent.heroDescription && (
-              <p className="text-base sm:text-lg lg:text-xl text-gray-600 max-w-xl mx-auto mb-8 sm:mb-10 leading-relaxed px-2 readmore-container">
-                {pageContent.heroDescription}
-                  <span id="dots" class>...</span>
-                <span id="moreText" className="readmore-more hidden">
-                  {pageContent.heroDescription1}
-                </span>
-                <button id="readMoreLink" className="readmore-btn text-primary-600 hover:text-primary-700 font-medium ml-2 transition-colors">
-                  <span className="link-text">Mehr lesen</span>
-                </button>
+              <p className="text-base sm:text-lg lg:text-xl text-gray-600 max-w-xl mx-auto mb-8 sm:mb-10 leading-relaxed px-2">
+                {/* Text */}
+                {isHeroExpanded ? (
+                  <>
+                    {pageContent.heroDescription}
+                    {" "}
+                    {pageContent.heroDescription1}
+                  </>
+                ) : (
+                  <>
+                    {pageContent.heroDescription}
+                    {pageContent.heroDescription1 && <span className="ml-1">...</span>}
+                  </>
+                )}
+
+                {/* Button only if we actually have extra text */}
+                {pageContent.heroDescription1 && (
+                  <button
+                    type="button"
+                    onClick={() => setIsHeroExpanded(prev => !prev)}
+                    className="ml-2 text-primary-600 hover:text-primary-700 font-medium inline-flex items-center transition-colors"
+                  >
+                    {isHeroExpanded ? "Weniger anzeigen" : "Mehr lesen"}
+                  </button>
+                )}
               </p>
             )}
 
