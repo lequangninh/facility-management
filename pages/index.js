@@ -759,8 +759,7 @@ export default function Home({ pageContent,pageListingIntro, listings, faqs,faci
               </div>
 
               <p className="text-sm sm:text-base text-gray-400 leading-relaxed mb-6 max-w-xl">
-                Your trusted source for facility management software comparisons,
-                reviews, and expert insights.
+                Ihre zuverlässige Quelle für Vergleiche, Bewertungen und Expertenmeinungen zu Facility-Management-Software.
               </p>
 
               <div className="flex gap-3 sm:gap-4">
