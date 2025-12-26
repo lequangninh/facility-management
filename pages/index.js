@@ -634,7 +634,7 @@ export default function Home({ pageContent,pageListingIntro, listings, faqs,faci
             </div>
 
             {pageContent.heroDescription && (
-              <p className="text-base sm:text-lg lg:text-xl text-gray-600 max-w-xl mx-auto mb-8 sm:mb-10 leading-relaxed px-2">
+              <p className="text-base sm:text-lg lg:text-xl text-gray-600 max-w-xl mx-auto mb-8 sm:mb-10 leading-relaxed px-2 readmore-container">
                 {pageContent.heroDescription}
                   <span id="dots" class>...</span>
                 <span id="moreText" className="readmore-more hidden">
