@@ -87,7 +87,7 @@ function ListingCard({ item }) {
   const [activeTab, setActiveTab] = useState("overview");
 
   const tabs = [
-    { id: "overview", label: "Overview", Icon: Info },
+    { id: "Überblick", label: "Überblick", Icon: Info },
     { id: "Merkmale", label: "Merkmale", Icon: Settings },
     { id: "proscons", label: "Pros & Cons", Icon: Scale },
     { id: "pricing", label: "Pricing", Icon: DollarSign },
@@ -298,7 +298,7 @@ function ListingCard({ item }) {
 
         {/* TAB PANELS */}
         <div className="tab-content mt-2 space-y-3 text-sm sm:text-base text-gray-700 leading-relaxed">
-          {activeTab === "overview" && (
+          {activeTab === "Überblick" && (
             <>
               {item.description && (
                 <p className="mb-4">
