@@ -84,13 +84,13 @@ function RatingStars({ rating }) {
 }
 
 function ListingCard({ item }) {
-  const [activeTab, setActiveTab] = useState("overview");
+  const [activeTab, setActiveTab] = useState("Überblick");
 
   const tabs = [
     { id: "Überblick", label: "Überblick", Icon: Info },
     { id: "Merkmale", label: "Merkmale", Icon: Settings },
-    { id: "proscons", label: "Pros & Cons", Icon: Scale },
-    { id: "pricing", label: "Pricing", Icon: DollarSign },
+    { id: "VorteileNachteile", label: "Vorteile & Nachteile", Icon: Scale },
+    { id: "Preisgestaltung", label: "Preisgestaltung", Icon: DollarSign },
   ];
 
   const hasNumericPrice = typeof item.pricingLabel === "string" && /\d/.test(item.pricingLabel);
@@ -329,7 +329,7 @@ function ListingCard({ item }) {
             </ul>
           )}
 
-          {activeTab === "proscons" && (
+          {activeTab === "VorteileNachteile" && (
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
               {item.pros?.length > 0 && (
                 <div className="p-3 sm:p-4 bg-green-50 rounded-2xl border border-green-200">
@@ -371,7 +371,7 @@ function ListingCard({ item }) {
             </div>
           )}
 
-          {activeTab === "pricing" && (
+          {activeTab === "Preisgestaltung" && (
             <div>
               {item.pricingLabel && (
                 <p className="font-semibold text-gray-900 mb-2">
