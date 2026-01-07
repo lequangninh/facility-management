@@ -93,6 +93,10 @@ function ListingCard({ item }) {
     { id: "Preisgestaltung", label: "Preisgestaltung", Icon: DollarSign },
   ];
 
+    // 🔹 NEW: only show video if Status Video = "Live"
+  const showVideo =
+    (item.statusVideo || "Live").toLowerCase() === "live" && !!item.videoUrl;
+
   const hasNumericPrice = typeof item.pricingLabel === "string" && /\d/.test(item.pricingLabel);
 
   return (
@@ -230,7 +234,7 @@ function ListingCard({ item }) {
 
         {/* RIGHT: responsive video – same idea as generator, fixed for Android */}
         <div className="relative order-first lg:order-last w-full">
-          {item.videoUrl ? (
+          {showVideo ? (
             <div className="aspect-video bg-gray-100 rounded-2xl overflow-hidden border border-gray-200 w-full max-w-full">
               <iframe
                 src={item.videoUrl}
