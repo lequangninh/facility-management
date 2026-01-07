@@ -245,7 +245,7 @@ function ListingCard({ item }) {
               />
             </div>
           ) : (
-            <div className="aspect-video w-full max-w-full rounded-2xl bg-gray-100 border border-gray-200 flex items-center justify-center text-gray-400 text-sm">
+            <div className="aspect-video w-full max-w-full rounded-2xl bg-white border border-white flex items-center justify-center text-gray-400 text-sm">
               Kein Video verfügbar
             </div>
           )}
