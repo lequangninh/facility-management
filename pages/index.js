@@ -95,7 +95,7 @@ function ListingCard({ item }) {
 
     // 🔹 NEW: only show video if Status Video = "Live"
   const showVideo =
-    (item.statusVideo || "Live").toLowerCase() === "live" && !!item.videoUrl;
+    (item.statusVideo ).toLowerCase() === "live" && !!item.videoUrl;
 
   const hasNumericPrice = typeof item.pricingLabel === "string" && /\d/.test(item.pricingLabel);
 
