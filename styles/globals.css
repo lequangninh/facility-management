@@ -279,6 +279,12 @@
       }
     }
 
+    @font-face {
+      font-family: 'Inter';
+      src: url(...);
+      font-display: swap;   /* ✅ this is what Lighthouse wants */
+    }
+
     .readmore-container {
   display: inline;
 }
