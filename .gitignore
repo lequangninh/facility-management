@@ -13,3 +13,6 @@ pnpm-debug.log*
 
 # misc
 .DS_Store
+# env files (Airtable token)
+.env
+.env*.local
